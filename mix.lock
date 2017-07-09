@@ -1,0 +1,2 @@
+%{"exprotobuf": {:hex, :exprotobuf, "1.2.7", "287e2a1239fa9924c71815b1961e6e97d55c13496e9feb4ad755706af105ec36", [:mix], [{:gpb, "~> 3.24", [hex: :gpb, repo: "hexpm", optional: false]}], "hexpm"},
+  "gpb": {:hex, :gpb, "3.27.2", "6053d63f10a0e6f2258143b8754172a2ed053e7e7eddbe880aa15d1ad4f5ba33", [:make, :rebar], [], "hexpm"}}
