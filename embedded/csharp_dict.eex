@@ -1,0 +1,30 @@
+using System.Collections.Generic;
+using System;
+
+namespace GangsClient
+{
+  public static class MessageDictionary
+  {
+    public static uint TranslateMessage(Type type)
+    {
+      switch(type.FullName)
+      {
+        <%= for {type, message} <- messages do %>
+          case "<%= message %>": return <%= type %>;
+        <% end %>
+        default: return 0;
+      }
+    }
+
+    public static object ParseMessage(uint typeId, byte[] data)
+    {
+      switch(typeId)
+      {
+        <%= for {type, message} <- messages do %>
+          case <%= type %>: return <%= message %>.Parser.ParseFrom(data);
+        <% end %>
+        default: return null;
+      }
+    }
+  }
+}
