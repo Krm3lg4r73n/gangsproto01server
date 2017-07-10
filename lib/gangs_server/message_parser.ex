@@ -1,9 +1,11 @@
 defmodule GangsServer.MessageParser do
+  alias GangsServer.{MessageHandler, MessageDictionary}
+
   def parse(type, data) do
-    case type do
-      1 -> GangsServer.Messages.User.decode(data)
-      2 -> GangsServer.Messages.Person.decode(data)
-    end
-    |> GangsServer.MessageHandler.handle
+    message = MessageDictionary.translate_type(type)
+    IO.inspect message
+    data
+    |> message.decode
+    |> MessageHandler.handle
   end
 end

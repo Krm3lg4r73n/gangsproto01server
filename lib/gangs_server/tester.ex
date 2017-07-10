@@ -11,7 +11,7 @@ defmodule Tester do
     |> IO.inspect
     |> GangsServer.Messages.Person.encode
 
-    GangsServer.MessageWriter.write(:conn, 0, data)
+    GangsServer.MessageWriter.write(:conn, 2, data)
   end
 
   def random_string(size) do
