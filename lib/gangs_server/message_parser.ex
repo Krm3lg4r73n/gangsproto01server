@@ -3,7 +3,6 @@ defmodule GangsServer.MessageParser do
 
   def parse(type, data) do
     message = MessageDictionary.translate_type(type)
-    IO.inspect message
     data
     |> message.decode
     |> MessageHandler.handle

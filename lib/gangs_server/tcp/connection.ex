@@ -1,6 +1,7 @@
 require Logger
+alias GangsServer.TCP
 
-defmodule GangsServer.Connection do
+defmodule TCP.Connection do
   use GenServer
 
   ### GenServer API

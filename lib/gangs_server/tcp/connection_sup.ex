@@ -1,4 +1,6 @@
-defmodule GangsServer.Connection.Supervisor do
+alias GangsServer.TCP
+
+defmodule TCP.Connection.Supervisor do
   use Supervisor
 
   def start_link(opts \\ []) do
@@ -7,7 +9,7 @@ defmodule GangsServer.Connection.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(GangsServer.Connection, [], restart: :temporary)
+      worker(TCP.Connection, [], restart: :temporary)
     ]
     supervise(children, strategy: :simple_one_for_one)
   end

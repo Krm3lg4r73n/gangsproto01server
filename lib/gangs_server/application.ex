@@ -1,3 +1,5 @@
+alias GangsServer.TCP
+
 defmodule GangsServer.Application do
   use Application
 
@@ -5,9 +7,9 @@ defmodule GangsServer.Application do
     import Supervisor.Spec
 
     children = [
-      supervisor(GangsServer.Connection.Supervisor,
-                 [[name: GangsServer.Connection.Supervisor]]),
-      worker(Task, [GangsServer, :accept, [4040]])
+      supervisor(TCP.Connection.Supervisor,
+                 [[name: TCP.Connection.Supervisor]]),
+      worker(Task, [GangsServer, :run, [%{port: 4040}]])
     ]
 
     opts = [strategy: :one_for_one, name: GangsServer.Supervisor]
