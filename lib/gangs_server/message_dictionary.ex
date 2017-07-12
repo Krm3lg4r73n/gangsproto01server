@@ -6,6 +6,8 @@ defmodule GangsServer.MessageDictionary do
     {2, Messages.Person}
   ]
 
+  def dict, do: @dictionary
+
   def translate_message(message) do
     {type, _} = Enum.find(@dictionary, fn {_, m} -> m == message.__struct__ end)
     type
