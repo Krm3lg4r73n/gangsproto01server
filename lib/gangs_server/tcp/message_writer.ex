@@ -1,6 +1,6 @@
 alias GangsServer.TCP
 
-defmodule GangsServer.MessageWriter do
+defmodule TCP.MessageWriter do
   def write(conn, msg_type, msg_data) do
     msg_size = byte_size(msg_data)
     buffer = <<msg_type::integer-little-size(32)>> <>

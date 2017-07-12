@@ -1,5 +1,6 @@
-defmodule GangsServer.MessageReader do
+alias GangsServer.{TCP, Messaging}
 
+defmodule TCP.MessageReader do
   @head_size 8
 
   def read(buffer) do
@@ -21,7 +22,7 @@ defmodule GangsServer.MessageReader do
         remaining::binary>> ->
         case remaining do
           <<msg_data::binary-size(msg_size), remaining::binary>> ->
-            GangsServer.MessageParser.parse(msg_type, msg_data)
+            Messaging.Parser.parse(msg_type, msg_data)
             {:ok, remaining}
           _ -> {:missing_data, buffer}
         end

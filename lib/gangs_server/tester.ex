@@ -1,3 +1,5 @@
+alias GangsServer.{TCP, Message}
+
 defmodule Tester do
   def run(cnt, size) do
     send_message(size)
@@ -5,13 +7,13 @@ defmodule Tester do
   end
 
   def send_message(size) do
-    data = GangsServer.Messages.Person.new(
+    data = Message.Person.new(
       name: random_string(size)
     )
     |> IO.inspect
-    |> GangsServer.Messages.Person.encode
+    |> Message.Person.encode
 
-    GangsServer.MessageWriter.write(:conn, 2, data)
+    TCP.MessageWriter.write(:conn, 2, data)
   end
 
   def random_string(size) do

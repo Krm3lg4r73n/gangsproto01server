@@ -1,9 +1,10 @@
-defmodule GangsServer.MessageDictionary do
-  alias GangsServer.Messages
+alias GangsServer.{Messaging, Message}
+
+defmodule Messaging.Dictionary do
 
   @dictionary [
-    {1, Messages.User},
-    {2, Messages.Person}
+    {1, Message.User},
+    {2, Message.Person}
   ]
 
   def dict, do: @dictionary

@@ -17,7 +17,7 @@ defmodule TCP.Connection do
 
   def handle_info({:tcp, _socket, data}, %{buffer: buffer} = state) do
     newBuffer = buffer <> data
-    |> GangsServer.MessageReader.read
+    |> TCP.MessageReader.read
     {:noreply, %{state | buffer: newBuffer}}
   end
 
