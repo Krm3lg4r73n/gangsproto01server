@@ -11,11 +11,15 @@ defmodule GangsServer.Mixfile do
   end
 
   def application do
-    [extra_applications: [:logger],
+    [extra_applications: [:logger, :ecto, :postgrex],
      mod: {GangsServer.Application, []}]
   end
 
   defp deps do
-    [{ :exprotobuf, ">= 1.2.7" }]
+    [
+      {:exprotobuf, ">= 1.2.7"},
+      {:ecto, "~> 2.1"},
+      {:postgrex, "~> 0.13.3"}
+    ]
   end
 end

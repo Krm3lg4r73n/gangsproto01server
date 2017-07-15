@@ -1,0 +1,10 @@
+version: '2'
+services:
+  postgres:
+    image: postgres
+    environment:
+      - PGDATA=/dbdata
+    volumes:
+      - ./dbdata:/dbdata
+    ports:
+      - "5432:5432"
