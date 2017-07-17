@@ -1,8 +1,8 @@
-Code.require_file "../lib/gangs_server/message_dictionary.ex", __DIR__
+Code.require_file "../lib/gangs_server/messaging/dictionary.ex", __DIR__
 
 defmodule Messages do
   def generate do
-    GangsServer.MessageDictionary.dict
+    GangsServer.Messaging.Dictionary.dict
     |> Enum.map(fn {id, module} ->
       {id, stringify_module(module)}
     end)
