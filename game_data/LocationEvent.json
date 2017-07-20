@@ -1,0 +1,7 @@
+[
+  {
+    "ref_name": "something_happens",
+    "location_ref":"bar",
+    "area_line_ref": "something_happens_at_bar_area"
+  }
+]

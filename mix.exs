@@ -19,7 +19,8 @@ defmodule GangsServer.Mixfile do
     [
       {:exprotobuf, ">= 1.2.7"},
       {:ecto, "~> 2.1"},
-      {:postgrex, "~> 0.13.3"}
+      {:postgrex, "~> 0.13.3"},
+      {:poison, "~> 3.1"}
     ]
   end
 end
