@@ -1,10 +1,10 @@
-alias GangsServer.Store.Schemas
+alias GangsServer.Store
 
-defmodule Schemas.Line do
-  use Ecto.Schema
+defmodule Store.Schemas.Line do
+  use Store.Schema
 
   schema "lines" do
-    field :ref_name, :string
+    field :key, :string
     field :text, :string
     timestamps()
 

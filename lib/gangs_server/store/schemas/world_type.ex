@@ -1,15 +1,11 @@
-alias GangsServer.Store.Schemas
+alias GangsServer.Store
 
-defmodule Schemas.WorldType do
-  use Ecto.Schema
+defmodule Store.Schemas.WorldType do
+  use Store.Schema
 
   schema "world_types" do
     field :ref_name, :string
+    field :description_line, :string
     timestamps()
-
-    belongs_to :description_line, Schemas.Line,
-      foreign_key: :description_line_ref,
-      references: :ref_name,
-      type: :string
   end
 end

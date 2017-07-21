@@ -1,17 +1,11 @@
-alias GangsServer.Store.Schemas
+alias GangsServer.Store
 
-defmodule Schemas.Locale do
-  use Ecto.Schema
+defmodule Store.Schemas.Locale do
+  use Store.Schema
 
   schema "locales" do
     field :ref_name, :string
     field :name, :string
     timestamps()
   end
-
-  # def changeset(schema, params \\ %{}) do
-  #   schema
-  #   |> Ecto.Changeset.cast(params, [:name])
-  #   |> Ecto.Changeset.validate_required([:name])
-  # end
 end

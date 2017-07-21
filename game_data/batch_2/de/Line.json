@@ -1,0 +1,22 @@
+[
+  {
+    "locale_ref": "de",
+    "key": "new_earth.description",
+    "text": "Weltbeschreibung von New Earth"
+  },
+  {
+    "locale_ref": "de",
+    "key": "bar.name",
+    "text": "Bar zum betrunkenen Seebär"
+  },
+  {
+    "locale_ref": "de",
+    "key": "bar.area",
+    "text": "So sieht es in der Bar aus ..."
+  },
+  {
+    "locale_ref": "de",
+    "key": "bar.something_happens",
+    "text": "Und das passiert plötzlich in der Bar!"
+  }
+]

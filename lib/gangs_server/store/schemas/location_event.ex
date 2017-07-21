@@ -1,19 +1,15 @@
-alias GangsServer.Store.Schemas
+alias GangsServer.Store
 
-defmodule Schemas.LocationEvent do
-  use Ecto.Schema
+defmodule Store.Schemas.LocationEvent do
+  use Store.Schema
 
   schema "location_events" do
     field :ref_name, :string
+    field :area_line, :string
     timestamps()
 
     belongs_to :location, Schemas.Location,
       foreign_key: :location_ref,
-      references: :ref_name,
-      type: :string
-
-    belongs_to :area_line, Schemas.Line,
-      foreign_key: :area_line_ref,
       references: :ref_name,
       type: :string
   end
