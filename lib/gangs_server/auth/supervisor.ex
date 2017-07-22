@@ -1,6 +1,6 @@
-alias GangsServer.Messaging
+alias GangsServer.Auth
 
-defmodule Messaging.Supervisor do
+defmodule Auth.Supervisor do
   use Supervisor
 
   def start_link(opts \\ []) do
@@ -9,8 +9,9 @@ defmodule Messaging.Supervisor do
 
   def init(:ok) do
     children = [
-      Messaging.EventManager.child_spec(),
-      worker(Messaging.Initializer, [[name: Messaging.Initializer]]),
+      Auth.EventManager.child_spec(),
+      worker(Auth.Initializer, [[name: Auth.Initializer]]),
+      worker(Auth.Dictionary, [[name: Auth.Dictionary]]),
     ]
 
     supervise(children, strategy: :rest_for_one)

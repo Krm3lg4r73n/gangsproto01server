@@ -6,19 +6,22 @@ defmodule TCP.Connection do
 
   ### GenServer API
 
-  def init(conn) do
-    {:ok, %{conn: conn, buffer: <<>>}}
+  def init(client) do
+    {:ok, %{client: client, buffer: <<>>}}
   end
 
-  def handle_call({:send, data}, _sender, %{conn: conn} = state) do
-    :ok = :gen_tcp.send(conn, data)
+  def handle_call({:send, data}, _sender, %{client: client} = state) do
+    :ok = :gen_tcp.send(client, data)
     {:reply, :ok, state}
   end
 
   def handle_info({:tcp, _socket, data}, %{buffer: buffer} = state) do
     newBuffer = buffer <> data
-    |> TCP.MessageReader.read
+    |> TCP.MessageReader.read(self())
     {:noreply, %{state | buffer: newBuffer}}
+  end
+  def handle_info({:tcp_closed, _socket}, _state) do
+    exit(:normal)
   end
 
   ### Client API

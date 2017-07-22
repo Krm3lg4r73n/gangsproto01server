@@ -8,5 +8,11 @@ defmodule Messaging.EventManager do
 
   def register(handler, state \\ nil), do: GenEvent.add_handler(__MODULE__, handler, state)
 
-  def fire(message), do: GenEvent.notify(__MODULE__, {:message, message})
+  def fire_message(%Messaging.Message{} = message) do
+    GenEvent.notify(__MODULE__, {:message, message})
+  end
+
+  def refire(event) do
+    GenEvent.notify(__MODULE__, event)
+  end
 end

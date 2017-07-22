@@ -1,19 +1,23 @@
-alias GangsServer.Messaging
+alias GangsServer.{TCP, Messaging}
 
 defmodule Messaging.Initializer do
   use GenServer
 
+  @message_handler [
+    # Messaging.LogHandler,
+    Messaging.ParsingHandler,
+  ]
+
   def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, nil, opts)
+    GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  def init(_) do
-    register_listeners()
+  def init(:ok) do
+    register_handlers()
     {:ok, nil}
   end
 
-  defp register_listeners do
-    Messaging.Handler
-    |> Messaging.EventManager.register
+  defp register_handlers do
+    Enum.each(@message_handler, &TCP.EventManager.register/1)
   end
 end

@@ -11,7 +11,6 @@ defmodule Store.Schemas.Location do
 
     belongs_to :world_type, Schemas.WorldType,
       foreign_key: :world_type_ref,
-      references: :ref_name,
-      type: :string
+      references: :ref_name
   end
 end

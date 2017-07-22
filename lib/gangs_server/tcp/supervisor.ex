@@ -9,8 +9,10 @@ defmodule TCP.Supervisor do
 
   def init(:ok) do
     children = [
+      TCP.EventManager.child_spec(),
       supervisor(TCP.Connection.Supervisor, [[name: TCP.Connection.Supervisor]]),
-      worker(Task, [TCP.Server, :listen, [4040]])
+      worker(TCP.ConnectionMonitor, [[name: TCP.ConnectionMonitor]]),
+      worker(Task, [TCP.Server, :listen, [4040]]),
     ]
 
     supervise(children, strategy: :one_for_one)

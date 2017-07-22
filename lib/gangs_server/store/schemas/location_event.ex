@@ -10,7 +10,6 @@ defmodule Store.Schemas.LocationEvent do
 
     belongs_to :location, Schemas.Location,
       foreign_key: :location_ref,
-      references: :ref_name,
-      type: :string
+      references: :ref_name
   end
 end

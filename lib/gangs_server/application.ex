@@ -1,4 +1,4 @@
-alias GangsServer.{TCP, Store, Messaging}
+alias GangsServer.{TCP, Store, Messaging, Auth, Game}
 
 defmodule GangsServer.Application do
   use Application
@@ -7,9 +7,11 @@ defmodule GangsServer.Application do
     import Supervisor.Spec
 
     children = [
-      supervisor(TCP.Supervisor, [[name: TCP.Supervisor]]),
       supervisor(Store.Supervisor, [[name: Store.Supervisor]]),
+      supervisor(TCP.Supervisor, [[name: TCP.Supervisor]]),
       supervisor(Messaging.Supervisor, [[name: Messaging.Supervisor]]),
+      supervisor(Auth.Supervisor, [[name: Auth.Supervisor]]),
+      supervisor(Game.Supervisor, [[name: Game.Supervisor]]),
     ]
 
     opts = [strategy: :one_for_one, name: GangsServer.Supervisor]

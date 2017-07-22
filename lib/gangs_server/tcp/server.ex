@@ -15,11 +15,8 @@ defmodule TCP.Server do
     {:ok, pid} = Supervisor.start_child(
       TCP.Connection.Supervisor,
       [client])
+    :ok = TCP.ConnectionMonitor.monitor(pid)
     :ok = :gen_tcp.controlling_process(client, pid)
-
-    Process.register(pid, :conn)
-    Logger.debug "New connection with pid: #{inspect(pid)}"
-
     loop_acceptor(socket)
   end
 end

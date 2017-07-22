@@ -12,7 +12,8 @@ defmodule Messages do
     module
     |> to_string
     |> String.split(".")
-    |> Enum.drop(2) #Elixir.GenServer
+    |> Enum.drop(3) #Elixir.GenServer.Message
+    |> List.insert_at(0, "Msg")
     |> Enum.join(".")
   end
 end
