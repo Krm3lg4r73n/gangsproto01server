@@ -1,4 +1,4 @@
-alias GangsServer.{TCP, Messaging}
+alias GangsServer.TCP
 
 defmodule TCP.MessageReader do
   @head_size 8
