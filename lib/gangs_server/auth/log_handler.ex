@@ -9,13 +9,13 @@ defmodule Auth.LogHandler do
     {:ok, nil}
   end
 
-  def handle_event({:connected, connection}, _state) do
-    Logger.debug "Auth: Connected #{inspect(connection)}"
+  def handle_event({:connected, conn}, _state) do
+    Logger.debug "Auth: Connected #{inspect(conn)}"
     {:ok, nil}
   end
 
-  def handle_event({:disconnected, connection}, _state) do
-    Logger.debug "Auth: Disconnected #{inspect(connection)}"
+  def handle_event({:disconnected, conn}, _state) do
+    Logger.debug "Auth: Disconnected #{inspect(conn)}"
     {:ok, nil}
   end
 end

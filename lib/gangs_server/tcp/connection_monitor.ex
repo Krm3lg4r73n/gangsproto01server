@@ -9,17 +9,17 @@ defmodule TCP.ConnectionMonitor do
     {:ok, refs}
   end
 
-  def handle_call({:monitor, connection}, _from, refs) do
-    ref = Process.monitor(connection)
+  def handle_call({:monitor, conn}, _from, refs) do
+    ref = Process.monitor(conn)
     refs = MapSet.put(refs, ref)
-    TCP.EventManager.fire_connected(connection)
+    TCP.EventManager.fire_connected(conn)
     {:reply, :ok, refs}
   end
 
-  def handle_info({:DOWN, ref, :process, connection, _reason}, refs) do
+  def handle_info({:DOWN, ref, :process, conn, _reason}, refs) do
     true = MapSet.member?(refs, ref)
     refs = MapSet.delete(refs, ref)
-    TCP.EventManager.fire_disconnected(connection)
+    TCP.EventManager.fire_disconnected(conn)
     {:noreply, refs}
   end
 
@@ -29,7 +29,7 @@ defmodule TCP.ConnectionMonitor do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  def monitor(connection) do
-    GenServer.call(__MODULE__, {:monitor, connection})
+  def monitor(conn) do
+    GenServer.call(__MODULE__, {:monitor, conn})
   end
 end

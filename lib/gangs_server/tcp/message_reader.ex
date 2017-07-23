@@ -31,7 +31,7 @@ defmodule TCP.MessageReader do
   end
 
   defp process_message(msg_type, msg_data, conn) do
-    %TCP.Message{type: msg_type, data: msg_data, connection: conn}
+    %TCP.Message{type: msg_type, data: msg_data, conn: conn}
     |> TCP.EventManager.fire_message
   end
 end

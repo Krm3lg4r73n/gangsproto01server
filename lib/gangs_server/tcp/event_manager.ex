@@ -12,11 +12,11 @@ defmodule TCP.EventManager do
     GenEvent.notify(__MODULE__, {:message, message})
   end
 
-  def fire_connected(connection) do
-    GenEvent.notify(__MODULE__, {:connected, connection})
+  def fire_connected(conn) do
+    GenEvent.notify(__MODULE__, {:connected, conn})
   end
 
-  def fire_disconnected(connection) do
-    GenEvent.notify(__MODULE__, {:disconnected, connection})
+  def fire_disconnected(conn) do
+    GenEvent.notify(__MODULE__, {:disconnected, conn})
   end
 end
