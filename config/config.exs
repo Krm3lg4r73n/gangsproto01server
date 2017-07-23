@@ -4,10 +4,7 @@ use Mix.Config
 
 config :gangs_server, GangsServer.Store.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "gangs_server_repo",
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost"
+  url: System.get_env("POSTGRES_URL") || "postgres://postgres:postgres@localhost:5432/gangs_server"
 
 config :gangs_server, ecto_repos: [GangsServer.Store.Repo]
 

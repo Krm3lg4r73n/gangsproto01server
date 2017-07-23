@@ -21,7 +21,7 @@ defmodule Mix.Tasks.GangsServer.ResetGameData do
   defp to_schema_module(filename) do
     schema_module = "Elixir.GangsServer.Store.Schemas." <>
                     Path.basename(filename, '.json')
-    |> String.to_existing_atom
+    |> String.to_atom
     {filename, schema_module}
   end
 

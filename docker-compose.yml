@@ -1,5 +1,14 @@
 version: '2'
 services:
+  app:
+    build: .
+    working_dir: /code
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/gangs_server
+    links:
+      - postgres
+    ports:
+     - "4040:4040"
   postgres:
     image: postgres
     environment:
