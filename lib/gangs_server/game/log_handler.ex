@@ -5,7 +5,7 @@ defmodule Game.LogHandler do
   use GenEvent
 
   def handle_event({:message, message}, _state) do
-    Logger.debug "Game: Received #{inspect(message)}"
+    Logger.debug "Game: Received #{inspect(message.message)} from #{message.user}"
     {:ok, nil}
   end
 

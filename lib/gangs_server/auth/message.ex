@@ -3,9 +3,9 @@ alias GangsServer.{Auth, Messaging}
 defmodule Auth.Message do
   defstruct [:message, :user]
 
-  def send(%Auth.Message{message: message, user: user}) do
-    conn = Auth.Dictionary.translate_user(user)
-    %Messaging.Message{message: message, conn: conn}
-    |> Messaging.Message.send
+  def send(message, user) do
+    {:ok, conn} = Auth.Dictionary.translate_user(user)
+    message
+    |> Messaging.Message.send(conn)
   end
 end

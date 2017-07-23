@@ -13,7 +13,7 @@ defmodule Tester do
     |> IO.inspect
     |> Message.Person.encode
 
-    TCP.MessageWriter.write(:conn, 2, data)
+    TCP.Message.send(2, data, :conn)
   end
 
   def random_string(size) do

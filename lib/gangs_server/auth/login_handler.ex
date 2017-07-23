@@ -47,9 +47,8 @@ defmodule Auth.LoginHandler do
   end
 
   defp reject_conn(conn) do
-    msg = %Message.ClientError{error: "unauthenticated"}
-    %Messaging.Message{message: msg, conn: conn}
-    |> Messaging.Message.send
+    %Message.ClientError{error: "unauthenticated"}
+    |> Messaging.Message.send(conn)
   end
 
   defp fire_message(message, user) do

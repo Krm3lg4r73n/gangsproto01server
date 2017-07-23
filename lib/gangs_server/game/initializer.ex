@@ -4,7 +4,8 @@ defmodule Game.Initializer do
   use GenServer
 
   @message_handler [
-    Game.LogHandler
+    Game.LogHandler,
+    Game.LobbyHandler,
   ]
 
   def start_link(opts \\ []) do

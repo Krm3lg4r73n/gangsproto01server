@@ -5,7 +5,8 @@ defmodule Messaging.Dictionary do
   @dictionary [
     {1, Message.User},
     {2, Message.ClientError},
-    {3, Message.Person},
+    {3, Message.Bootstrap},
+    {4, Message.Person},
   ]
 
   def dict, do: @dictionary
