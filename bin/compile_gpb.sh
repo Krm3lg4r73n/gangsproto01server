@@ -1,5 +1,5 @@
 #!/bin/sh
-PROTO_DIR=./protobufs/
+PROTO_DIR=protobufs/
 CSHARP_DIR=../gangsproto01game/Assets/Scripts/Protobufs/
 JAVA_DIR=../protobufs_java/
 
@@ -15,6 +15,11 @@ if [ -d "$CSHARP_DIR" ]; then
   `rm "$CSHARP_DIR"*`
 fi
 
-for i in `ls "$PROTO_DIR"*`; do
-  protoc --proto_path="$PROTO_DIR" $CSHARP_OPT $JAVA_OPT "$i"
-done
+function look_for_protos {
+  for i in `find $(pwd)/"$1"*  -type f`; do
+    DIR=$(dirname "$i")
+    protoc --proto_path="$DIR" $CSHARP_OPT $JAVA_OPT "$i"
+  done
+}
+
+look_for_protos "$PROTO_DIR"
