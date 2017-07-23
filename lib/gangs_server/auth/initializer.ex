@@ -4,7 +4,7 @@ defmodule Auth.Initializer do
   use GenServer
 
   @message_handler [
-    Auth.LogHandler,
+    # Auth.LogHandler,
     Auth.LoginHandler
   ]
 

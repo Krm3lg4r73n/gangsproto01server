@@ -12,7 +12,7 @@ defmodule GangsServer.Store.Repo.Migrations.Initial do
 
     create table(:users) do
       add :name, :string, null: false
-      add :locale_ref, references(:locales, column: :ref_name, type: :string)
+      add :locale_ref, references(:locales, column: :ref_name, type: :string, on_delete: :nilify_all)
       timestamps()
     end
     create index(:users, [:name], unique: true)
