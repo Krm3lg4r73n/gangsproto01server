@@ -1,7 +1,6 @@
-require Logger
-alias GangsServer.Auth
+alias GangsServer.User
 
-defmodule Auth.Dictionary do
+defmodule User.Registry do
   use GenServer
 
   def init(:ok) do

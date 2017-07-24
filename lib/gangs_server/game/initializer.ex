@@ -1,26 +1,13 @@
-alias GangsServer.{Auth, Game}
+alias GangsServer.Game
 
 defmodule Game.Initializer do
   use GenServer
 
-  @message_handler [
-    Game.LogHandler,
-    Game.LobbyHandler,
-  ]
-
   def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, nil, opts)
+    GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  def init(_) do
-    register_handlers()
+  def init(:ok) do
     {:ok, nil}
-  end
-
-  defp register_handlers do
-    Enum.each(
-      @message_handler,
-      &Auth.EventManager.register/1
-    )
   end
 end

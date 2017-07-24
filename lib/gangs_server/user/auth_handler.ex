@@ -1,7 +1,7 @@
 require Logger
-alias GangsServer.{Auth, Messaging, Message, Store}
+alias GangsServer.{User, Messaging, Message, Store}
 
-defmodule Auth.LoginHandler do
+defmodule User.AuthHandler do
   use GenEvent
 
   def handle_event({:message, message}, _state) do
@@ -9,10 +9,10 @@ defmodule Auth.LoginHandler do
     {:ok, nil}
   end
   def handle_event({:disconnected, conn}, _state) do
-    case Auth.Dictionary.translate_conn(conn) do
+    case User.Registry.translate_conn(conn) do
       {:ok, user} ->
-        Auth.EventManager.fire_user_disconnected(user)
-        Auth.Dictionary.remove(conn)
+        # kill user process
+        User.Registry.remove(conn)
       :error -> nil
     end
     {:ok, nil}
@@ -26,8 +26,8 @@ defmodule Auth.LoginHandler do
     end
   end
   defp process_message(message, conn) do
-    case Auth.Dictionary.translate_conn(conn) do
-      {:ok, user} -> fire_message(message, user)
+    case User.Registry.translate_conn(conn) do
+      {:ok, user} -> nil # relay message to user process
       :error -> nil
     end
   end
@@ -40,8 +40,8 @@ defmodule Auth.LoginHandler do
   end
 
   defp process_conn(conn, user) do
-    case Auth.Dictionary.add(conn, user) do
-      :ok -> Auth.EventManager.fire_user_connected(user)
+    case User.Registry.add(conn, user) do
+      :ok -> nil # start new user process
       :error -> reject_conn(conn)
     end
   end
@@ -49,10 +49,5 @@ defmodule Auth.LoginHandler do
   defp reject_conn(conn) do
     %Message.ClientError{error: "unauthenticated"}
     |> Messaging.Message.send(conn)
-  end
-
-  defp fire_message(message, user) do
-    %Auth.Message{message: message, user: user}
-    |> Auth.EventManager.fire_message
   end
 end

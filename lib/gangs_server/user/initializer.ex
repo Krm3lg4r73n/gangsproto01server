@@ -1,11 +1,11 @@
-alias GangsServer.{Messaging, Auth}
+alias GangsServer.{Messaging, User}
 
-defmodule Auth.Initializer do
+defmodule User.Initializer do
   use GenServer
 
   @message_handler [
-    # Auth.LogHandler,
-    Auth.LoginHandler
+    User.LogHandler,
+    User.AuthHandler,
   ]
 
   def start_link(opts \\ []) do
