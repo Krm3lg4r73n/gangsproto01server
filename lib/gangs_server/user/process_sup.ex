@@ -1,6 +1,6 @@
-alias GangsServer.UserManagement
+alias GangsServer.User
 
-defmodule UserManagement.UserProcess.Supervisor do
+defmodule User.Process.Supervisor do
   use Supervisor
 
   def start_link(opts \\ []) do
@@ -9,7 +9,7 @@ defmodule UserManagement.UserProcess.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(UserManagement.UserProcess, [], restart: :temporary)
+      worker(User.Process, [], restart: :temporary)
     ]
     supervise(children, strategy: :simple_one_for_one)
   end

@@ -1,6 +1,6 @@
-alias GangsServer.UserManagement
+alias GangsServer.User
 
-defmodule UserManagement.UserProcess do
+defmodule User.Process do
   use GenServer
 
   defstruct user: nil, super_user: false
@@ -23,4 +23,8 @@ defmodule UserManagement.UserProcess do
   def set_locale(pid, locale) do
     GenServer.call(pid, {:set_locale, locale})
   end
+
+  def disconnect(_), do: nil
+
+  def handle_message(_, _), do: nil
 end

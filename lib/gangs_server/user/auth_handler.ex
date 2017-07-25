@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.{User, Messaging, Message, Store}
+alias GangsServer.{User, Messaging, Message}
 
 defmodule User.AuthHandler do
   use GenEvent
@@ -9,10 +9,11 @@ defmodule User.AuthHandler do
     {:ok, nil}
   end
   def handle_event({:disconnected, conn}, _state) do
-    case User.Registry.translate_conn(conn) do
-      {:ok, user} ->
-        # kill user process
-        User.Registry.remove(conn)
+    case User.ConnectionRegistry.translate_key(conn) do
+      {:ok, user_pid} ->
+        User.Process.disconnect(user_pid)
+        User.ConnectionRegistry.unregister_by_pid(user_pid)
+        User.UserRegistry.unregister_by_pid(user_pid)
       :error -> nil
     end
     {:ok, nil}
@@ -20,30 +21,25 @@ defmodule User.AuthHandler do
   def handle_event(_event, _state), do: {:ok, nil}
 
   defp process_message(%Message.User{name: name}, conn) do
-    case authenticate_user(name) do
+    case User.AuthPolicy.verify(name) do
       {:ok, user} -> process_conn(conn, user)
       :error -> reject_conn(conn)
     end
   end
   defp process_message(message, conn) do
-    case User.Registry.translate_conn(conn) do
-      {:ok, user} -> nil # relay message to user process
+    case User.ConnectionRegistry.translate_key(conn) do
+      {:ok, user_pid} -> User.Process.handle_message(user_pid, message)
       :error -> nil
     end
   end
 
-  defp authenticate_user(name) do
-    case Store.Repo.get_by(Store.Schemas.User, name: name) do
-      nil -> :error
-      user -> {:ok, user}
-    end
-  end
-
   defp process_conn(conn, user) do
-    case User.Registry.add(conn, user) do
-      :ok -> nil # start new user process
-      :error -> reject_conn(conn)
-    end
+    {:ok, user_pid} = Supervisor.start_child(
+      User.Process.Supervisor,
+      [user])
+    User.ConnectionRegistry.register(conn, user_pid)
+    User.UserRegistry.register(user, user_pid)
+    #TODO: test for errors and kill process
   end
 
   defp reject_conn(conn) do
