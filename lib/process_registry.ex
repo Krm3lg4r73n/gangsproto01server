@@ -6,6 +6,13 @@ defmodule ProcessRegistry do
     {:ok, registry}
   end
 
+  def handle_call({:test_key, key}, _from, registry) do
+    case SymmetricMap.has_key?(registry, key) do
+      true -> {:reply, :error, registry}
+      false -> {:reply, :ok, registry}
+    end
+  end
+
   def handle_call({:register, key, pid}, _from, registry) do
     case SymmetricMap.put(registry, key, pid) do
       :error -> {:reply, :error, registry}
@@ -49,6 +56,10 @@ defmodule ProcessRegistry do
     quote do
       def start_link(opts \\ []) do
         GenServer.start_link(ProcessRegistry, :ok, opts)
+      end
+
+      def test_key(key) do
+        GenServer.call(__MODULE__, {:test_key, key})
       end
 
       def register(key, pid) do

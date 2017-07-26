@@ -39,4 +39,12 @@ defmodule SymmetricMap do
   def fetch_by_value(%SymmetricMap{value_map: value_map}, value) do
     Map.fetch(value_map, value)
   end
+
+  def has_key?(%SymmetricMap{key_map: key_map}, key) do
+    Map.has_key?(key_map, key)
+  end
+
+  def has_value?(%SymmetricMap{value_map: value_map}, value) do
+    Map.has_key?(value_map, value)
+  end
 end

@@ -37,4 +37,18 @@ defmodule SymmetricMapTest do
     {:ok, subject} = SymmetricMap.delete_by_value(subject, :value)
     assert SymmetricMap.delete_by_value(subject, :value) == :error
   end
+
+  test "it knows if it has a key" do
+    subject = SymmetricMap.new
+    assert SymmetricMap.has_key?(subject, :key) == false
+    {:ok, subject} = SymmetricMap.put(subject, :key, :value)
+    assert SymmetricMap.has_key?(subject, :key) == true
+  end
+
+  test "it knows if it has a value" do
+    subject = SymmetricMap.new
+    assert SymmetricMap.has_value?(subject, :value) == false
+    {:ok, subject} = SymmetricMap.put(subject, :key, :value)
+    assert SymmetricMap.has_value?(subject, :value) == true
+  end
 end

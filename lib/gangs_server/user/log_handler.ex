@@ -1,21 +1,21 @@
 require Logger
-alias GangsServer.Auth
+alias GangsServer.User
 
-defmodule Auth.LogHandler do
+defmodule User.LogHandler do
   use GenEvent
 
   def handle_event({:message, message}, _state) do
-    Logger.debug "Auth: Received #{inspect(message)}"
+    Logger.debug "User: Received #{inspect(message)}"
     {:ok, nil}
   end
 
   def handle_event({:connected, conn}, _state) do
-    Logger.debug "Auth: Connected #{inspect(conn)}"
+    Logger.debug "User: Connected #{inspect(conn)}"
     {:ok, nil}
   end
 
   def handle_event({:disconnected, conn}, _state) do
-    Logger.debug "Auth: Disconnected #{inspect(conn)}"
+    Logger.debug "User: Disconnected #{inspect(conn)}"
     {:ok, nil}
   end
 end

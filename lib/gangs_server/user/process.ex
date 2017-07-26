@@ -1,4 +1,4 @@
-alias GangsServer.User
+alias GangsServer.{User, Message}
 
 defmodule User.Process do
   use GenServer

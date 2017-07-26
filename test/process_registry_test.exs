@@ -63,4 +63,12 @@ defmodule ProcessRegistryTest do
     assert DummyRegistry.register(:other_key, pid) == :error
     assert DummyRegistry.register(:other_key, other_pid) == :ok
   end
+
+  test "it can test for a key" do
+    {:ok, pid} = Agent.start(fn -> :ok end)
+    {:ok, _} = DummyRegistry.start_link([name: DummyRegistry])
+    assert DummyRegistry.test_key(:key) == :ok
+    :ok = DummyRegistry.register(:key, pid)
+    assert DummyRegistry.test_key(:key) == :error
+  end
 end

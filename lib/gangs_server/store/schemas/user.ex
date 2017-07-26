@@ -5,6 +5,7 @@ defmodule Store.Schemas.User do
 
   schema "users" do
     field :name, :string
+    field :services, {:array, :string}
     timestamps()
 
     belongs_to :locale, Schemas.Locale,

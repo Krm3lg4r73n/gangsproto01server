@@ -34,12 +34,21 @@ defmodule User.AuthHandler do
   end
 
   defp process_conn(conn, user) do
+    case {
+      User.ConnectionRegistry.test_key(conn),
+      User.UserRegistry.test_key(user)
+    } do
+      {:ok, :ok} -> register(conn, user)
+      _ -> reject_conn(conn)
+    end
+  end
+
+  defp register(conn, user) do
     {:ok, user_pid} = Supervisor.start_child(
-      User.Process.Supervisor,
-      [user])
+                      User.Process.Supervisor,
+                      [user])
     User.ConnectionRegistry.register(conn, user_pid)
     User.UserRegistry.register(user, user_pid)
-    #TODO: test for errors and kill process
   end
 
   defp reject_conn(conn) do
