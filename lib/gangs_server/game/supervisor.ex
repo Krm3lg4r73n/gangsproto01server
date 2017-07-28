@@ -10,7 +10,7 @@ defmodule Game.Supervisor do
   def init(:ok) do
     children = [
       worker(Game.Initializer, [[name: Game.Initializer]]),
-      worker(Game.WorldRunner, [[name: Game.WorldRunner]]),
+      worker(Game.WorldManager, [[name: Game.WorldManager]]),
     ]
 
     supervise(children, strategy: :rest_for_one)

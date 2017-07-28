@@ -14,7 +14,7 @@ defmodule TCP.MessageReader do
     |> read_messages
   end
 
-  defp try_read_message(buffer, conn) when byte_size(buffer) <= @head_size, do: {:missing_data, buffer, conn}
+  defp try_read_message(buffer, conn) when byte_size(buffer) < @head_size, do: {:missing_data, buffer, conn}
   defp try_read_message(buffer, conn) do
     case buffer do
       <<msg_type::integer-little-size(32),

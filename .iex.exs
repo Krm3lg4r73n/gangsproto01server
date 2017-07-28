@@ -1,2 +1,2 @@
 alias GangsServer.{Store, TCP, Messaging, Auth, Game, Message}
-alias Store.{Repo, Schemas}
+alias Store.{Repo, Schema}

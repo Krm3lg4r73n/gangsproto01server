@@ -1,6 +1,6 @@
 alias GangsServer.{User, Store}
 
-defmodule User.AuthPolicy do
+defmodule User.Policy.Auth do
   def verify(name) do
     name
     |> user_in_db
@@ -8,7 +8,7 @@ defmodule User.AuthPolicy do
   end
 
   defp user_in_db(name) do
-    Store.Repo.get_by(Store.Schemas.User, name: name)
+    Store.Loader.User.load_user_by_name(name)
   end
 
   defp format(nil), do: :error

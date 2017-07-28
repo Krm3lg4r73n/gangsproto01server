@@ -3,10 +3,18 @@ alias GangsServer.{Messaging, Message}
 defmodule Messaging.Dictionary do
 
   @dictionary [
-    {1, Message.User},
-    {2, Message.ClientError},
-    {3, Message.Bootstrap},
-    {4, Message.Person},
+    # SERVER
+    {101, Message.Ok},
+    {102, Message.Error},
+    {103, Message.Bootstrap},
+
+    # CLIENT
+    {201, Message.User},
+    {202, Message.WorldCreate},
+    {203, Message.WorldJoin},
+
+    # OTHER
+    {505, Message.Person},
   ]
 
   def dict, do: @dictionary

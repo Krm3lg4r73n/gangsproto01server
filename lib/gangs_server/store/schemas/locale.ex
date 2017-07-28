@@ -1,6 +1,6 @@
 alias GangsServer.Store
 
-defmodule Store.Schemas.Locale do
+defmodule Store.Schema.Locale do
   use Store.Schema
 
   schema "locales" do

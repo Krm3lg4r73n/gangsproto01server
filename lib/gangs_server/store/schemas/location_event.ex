@@ -1,6 +1,6 @@
 alias GangsServer.Store
 
-defmodule Store.Schemas.LocationEvent do
+defmodule Store.Schema.LocationEvent do
   use Store.Schema
 
   schema "location_events" do
@@ -8,7 +8,7 @@ defmodule Store.Schemas.LocationEvent do
     field :area_line, :string
     timestamps()
 
-    belongs_to :location, Schemas.Location,
+    belongs_to :location, Schema.Location,
       foreign_key: :location_ref,
       references: :ref_name
   end

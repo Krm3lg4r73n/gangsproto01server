@@ -1,6 +1,6 @@
 alias GangsServer.Store
 
-defmodule Store.Schemas.WorldType do
+defmodule Store.Schema.WorldType do
   use Store.Schema
 
   schema "world_types" do

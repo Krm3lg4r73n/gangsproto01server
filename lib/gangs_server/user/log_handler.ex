@@ -1,10 +1,10 @@
 require Logger
-alias GangsServer.User
+alias GangsServer.{User, Messaging}
 
 defmodule User.LogHandler do
   use GenEvent
 
-  def handle_event({:message, message}, _state) do
+  def handle_event({:message, %Messaging.Message{message: message}}, _state) do
     Logger.debug "User: Received #{inspect(message)}"
     {:ok, nil}
   end

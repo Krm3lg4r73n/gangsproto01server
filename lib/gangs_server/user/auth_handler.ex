@@ -21,7 +21,7 @@ defmodule User.AuthHandler do
   def handle_event(_event, _state), do: {:ok, nil}
 
   defp process_message(%Message.User{name: name}, conn) do
-    case User.AuthPolicy.verify(name) do
+    case User.Policy.Auth.verify(name) do
       {:ok, user} -> process_conn(conn, user)
       :error -> reject_conn(conn)
     end
@@ -38,21 +38,24 @@ defmodule User.AuthHandler do
       User.ConnectionRegistry.test_key(conn),
       User.UserRegistry.test_key(user)
     } do
-      {:ok, :ok} -> register(conn, user)
+      {:ok, :ok} -> attach_user(conn, user)
       _ -> reject_conn(conn)
     end
   end
 
-  defp register(conn, user) do
+  defp attach_user(conn, user) do
     {:ok, user_pid} = Supervisor.start_child(
                       User.Process.Supervisor,
                       [user])
     User.ConnectionRegistry.register(conn, user_pid)
     User.UserRegistry.register(user, user_pid)
+
+    Message.Ok.new
+    |> Messaging.Message.send(conn)
   end
 
   defp reject_conn(conn) do
-    %Message.ClientError{error: "unauthenticated"}
+    Message.Error.new(type: "unauthenticated")
     |> Messaging.Message.send(conn)
   end
 end

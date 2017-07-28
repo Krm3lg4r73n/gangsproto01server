@@ -1,6 +1,6 @@
 alias GangsServer.Store
 
-defmodule Store.Schemas.Line do
+defmodule Store.Schema.Line do
   use Store.Schema
 
   schema "lines" do
@@ -8,7 +8,7 @@ defmodule Store.Schemas.Line do
     field :text, :string
     timestamps()
 
-    belongs_to :locale, Schemas.Locale,
+    belongs_to :locale, Schema.Locale,
       foreign_key: :locale_ref,
       references: :ref_name
   end

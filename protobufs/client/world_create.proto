@@ -1,0 +1,6 @@
+syntax = "proto3";
+package msg;
+
+message WorldCreate {
+  string key = 1;
+}
