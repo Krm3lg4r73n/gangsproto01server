@@ -11,7 +11,6 @@ defmodule Store.Loader.UserTest do
   defp add_users do
     users = %{
       frank: %Store.Schema.User{name: "Frank", locale_ref: "de"},
-      sammy: %Store.Schema.User{name: "Sammy"},
     }
     users
     |> Enum.each(fn {_, user} -> Store.Repo.insert(user) end)
@@ -23,9 +22,9 @@ defmodule Store.Loader.UserTest do
     Ecto.Adapters.SQL.Sandbox.mode(Store.Repo, {:shared, self()})
 
     add_locale()
-    add_users()
+    users = add_users()
 
-    {:ok, %{value: :x}}
+    {:ok, %{users: users}}
   end
 
   test "it can load a user by name" do
