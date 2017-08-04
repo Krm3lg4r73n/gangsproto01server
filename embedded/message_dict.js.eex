@@ -1,11 +1,20 @@
 // Generated File DO NOT EDIT!!!
 
-import { msg } from '../compiled_gpb';
+import { msg } from '../../compiled_gpb';
 
 export function parseMessage(type, data) {
   switch(type) {
     <%= for {type, message} <- messages do %>
       case <%= type %>: return msg.<%= message %>.decode(data);
+    <% end %>
+    default: return null;
+  }
+}
+
+export function messageType(messageConstructor) {
+  switch(messageConstructor) {
+    <%= for {type, message} <- messages do %>
+      case msg.<%= message %>: return <%= type %>;
     <% end %>
     default: return null;
   }

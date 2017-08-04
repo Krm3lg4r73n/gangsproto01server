@@ -2,7 +2,7 @@
 CSHARP_DIR=../gangsproto01game/Assets/Scripts/Network/Generated/
 rm -r $CSHARP_DIR/*
 
-JS_DIR=../reactNativeTest/generated/
+JS_DIR=../reactNativeTest/app/generated/
 rm -r $JS_DIR/*
 
 mix compile
