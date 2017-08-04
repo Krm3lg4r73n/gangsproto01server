@@ -1,31 +1,18 @@
 require Logger
 alias GangsServer.Network
+alias Network.Websocket.Connection
 
 defmodule Network.Websocket.Connection do
   use GenServer
+
+  defstruct [client: nil, receiving: false]
 
   ### GenServer API
 
   def init(client) do
     Socket.Web.accept!(client)
-    listen(client)
-    {:ok, client}
-  end
-
-  def listen(client) do
-    me = self()
-    {:ok, fn -> init(client, me) end |> spawn_link}
-  end
-
-  defp init(%{socket: underlying} = client, pid) do
-    true = Process.link(underlying)
-    loop(client, pid)
-  end
-
-  defp loop(client, pid) do
-    msg = Socket.Web.recv!(client)
-    Kernel.send(pid, {:receive, msg})
-    loop(client, pid)
+    state = %Connection{client: client, receiving: false}
+    {:ok, state}
   end
 
   def handle_info({:receive, {:binary, data}}, state) do
@@ -34,16 +21,38 @@ defmodule Network.Websocket.Connection do
     |> Network.EventManager.fire_message
     {:noreply, state}
   end
+  def handle_info({:receive, {:close, _, _}}, state) do
+    Process.exit(self(), :normal)
+    {:noreply, state}
+  end
 
-  def handle_call({:send, buffer}, _sender, client) do
-    Socket.Web.send!(client, {:binary, Base.encode64(buffer)})
-    {:reply, :ok, client}
+
+  def handle_call({:send, buffer}, _sender, state) do
+    Socket.Web.send!(state.client, {:binary, Base.encode64(buffer)})
+    {:reply, :ok, state}
+  end
+  def handle_call({:begin_recv}, _sender, %Connection{client: client, receiving: false}) do
+    conn_pid = self()
+    spawn_link(fn -> loop(client, conn_pid) end)
+    {:reply, :ok, %Connection{client: client, receiving: true}}
+  end
+
+  defp loop(client, conn_pid) do
+    case Socket.Web.recv(client) do
+      {:ok, msg} -> Kernel.send(conn_pid, {:receive, msg})
+      {:error, _} -> Process.exit(self(), :normal)
+    end
+    loop(client, conn_pid)
   end
 
   ### Client API
 
   def start_link(state, opts \\ []) do
     GenServer.start_link(__MODULE__, state, opts)
+  end
+
+  def begin_recv(pid) do
+    GenServer.call(pid, {:begin_recv})
   end
 
   def send(pid, buffer) do
