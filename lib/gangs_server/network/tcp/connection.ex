@@ -1,7 +1,7 @@
 require Logger
-alias GangsServer.TCP
+alias GangsServer.Network
 
-defmodule TCP.Connection do
+defmodule Network.TCP.Connection do
   use GenServer
 
   ### GenServer API
@@ -16,8 +16,9 @@ defmodule TCP.Connection do
   end
 
   def handle_info({:tcp, _socket, data}, %{buffer: buffer} = state) do
+    IO.inspect(data)
     newBuffer = buffer <> data
-    |> TCP.MessageReader.read(self())
+    |> Network.TCP.MessageReader.read(self())
     {:noreply, %{state | buffer: newBuffer}}
   end
   def handle_info({:tcp_closed, _socket}, _state) do

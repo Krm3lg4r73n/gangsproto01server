@@ -14,7 +14,7 @@ defmodule Messaging.Dictionary do
     {203, Message.WorldJoin},
 
     # OTHER
-    {505, Message.Person},
+    {501, Message.Person},
   ]
 
   def dict, do: @dictionary

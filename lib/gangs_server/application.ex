@@ -1,4 +1,4 @@
-alias GangsServer.{TCP, Store, Messaging, User, Game}
+alias GangsServer.{Network, Store, Messaging, User, Game}
 
 defmodule GangsServer.Application do
   use Application
@@ -8,7 +8,7 @@ defmodule GangsServer.Application do
 
     children = [
       supervisor(Store.Supervisor, [[name: Store.Supervisor]]),
-      supervisor(TCP.Supervisor, [[name: TCP.Supervisor]]),
+      supervisor(Network.Supervisor, [[name: Network.Supervisor]]),
       supervisor(Messaging.Supervisor, [[name: Messaging.Supervisor]]),
       supervisor(User.Supervisor, [[name: User.Supervisor]]),
       supervisor(Game.Supervisor, [[name: Game.Supervisor]]),

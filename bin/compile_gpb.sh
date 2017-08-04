@@ -1,6 +1,6 @@
 #!/bin/sh
 PROTO_DIR=protobufs/
-CSHARP_DIR=../gangsproto01game/Assets/Scripts/Protobufs/
+CSHARP_DIR=../gangsproto01game/Assets/Scripts/Network/Protobufs/
 JAVA_DIR=../protobufs_java/
 
 JAVA_OPT=

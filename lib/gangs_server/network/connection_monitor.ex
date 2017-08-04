@@ -1,7 +1,7 @@
 require Logger
-alias GangsServer.TCP
+alias GangsServer.Network
 
-defmodule TCP.ConnectionMonitor do
+defmodule Network.ConnectionMonitor do
   use GenServer
 
   def init(:ok) do
@@ -12,14 +12,14 @@ defmodule TCP.ConnectionMonitor do
   def handle_call({:monitor, conn}, _from, refs) do
     ref = Process.monitor(conn)
     refs = MapSet.put(refs, ref)
-    TCP.EventManager.fire_connected(conn)
+    Network.EventManager.fire_connected(conn)
     {:reply, :ok, refs}
   end
 
   def handle_info({:DOWN, ref, :process, conn, _reason}, refs) do
     true = MapSet.member?(refs, ref)
     refs = MapSet.delete(refs, ref)
-    TCP.EventManager.fire_disconnected(conn)
+    Network.EventManager.fire_disconnected(conn)
     {:noreply, refs}
   end
 

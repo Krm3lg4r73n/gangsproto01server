@@ -1,4 +1,4 @@
-alias GangsServer.{TCP, Messaging}
+alias GangsServer.{Network, Messaging}
 
 defmodule Messaging.Initializer do
   use GenServer
@@ -18,6 +18,6 @@ defmodule Messaging.Initializer do
   end
 
   defp register_handlers do
-    Enum.each(@message_handler, &TCP.EventManager.register/1)
+    Enum.each(@message_handler, &Network.EventManager.register/1)
   end
 end

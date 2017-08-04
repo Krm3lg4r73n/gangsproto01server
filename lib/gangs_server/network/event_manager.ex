@@ -1,6 +1,6 @@
-alias GangsServer.TCP
+alias GangsServer.Network
 
-defmodule TCP.EventManager do
+defmodule Network.EventManager do
   def child_spec do
     import Supervisor.Spec
     worker(GenEvent, [[name: __MODULE__]])
@@ -8,7 +8,7 @@ defmodule TCP.EventManager do
 
   def register(handler, state \\ nil), do: GenEvent.add_handler(__MODULE__, handler, state)
 
-  def fire_message(%TCP.Message{} = message) do
+  def fire_message(%Network.Message{} = message) do
     GenEvent.notify(__MODULE__, {:message, message})
   end
 

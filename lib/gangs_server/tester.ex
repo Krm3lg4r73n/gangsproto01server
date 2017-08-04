@@ -1,4 +1,4 @@
-alias GangsServer.{TCP, Message}
+alias GangsServer.{Network, Message}
 
 defmodule Tester do
   def run(cnt, size) do
@@ -13,7 +13,11 @@ defmodule Tester do
     |> IO.inspect
     |> Message.Person.encode
 
-    TCP.Message.send(2, data, :conn)
+    Network.Message.send(501, data, :conn)
+  end
+
+  def send_websocket_message(size) do
+    Network.Websocket.Connection.send(:conn, random_string(size))
   end
 
   def random_string(size) do

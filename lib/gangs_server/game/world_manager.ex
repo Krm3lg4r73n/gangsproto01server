@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.Game
+alias GangsServer.{Game, User}
 
 defmodule Game.WorldManager do
   use GenServer
@@ -10,6 +10,7 @@ defmodule Game.WorldManager do
   end
 
   def handle_call({:join_world, key}, user_pid, _state) do
+    # TODO: check if already joined
     Logger.info "#{inspect(user_pid)} joining world #{key}"
     {:reply, :ok, nil}
   end

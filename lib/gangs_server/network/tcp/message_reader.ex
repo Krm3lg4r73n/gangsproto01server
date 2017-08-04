@@ -1,6 +1,6 @@
-alias GangsServer.TCP
+alias GangsServer.Network
 
-defmodule TCP.MessageReader do
+defmodule Network.TCP.MessageReader do
   @head_size 8
 
   def read(buffer, conn) do
@@ -31,7 +31,7 @@ defmodule TCP.MessageReader do
   end
 
   defp process_message(msg_type, msg_data, conn) do
-    %TCP.Message{type: msg_type, data: msg_data, conn: conn}
-    |> TCP.EventManager.fire_message
+    %Network.Message{type: msg_type, data: msg_data, conn: conn}
+    |> Network.EventManager.fire_message
   end
 end

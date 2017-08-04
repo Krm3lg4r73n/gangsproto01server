@@ -16,6 +16,9 @@ defmodule User.Process do
   def handle_call({:attach_system, system}, _from, state) do
     {:reply, :ok, %{state | systems: [system | state.systems]}}
   end
+  def handle_call(:disconnect, _from, state) do
+    {:reply, :ok, state}
+  end
 
   defp on_message(%Message.WorldCreate{key: key}, _state) do
     Game.WorldManager.create_world(key)
