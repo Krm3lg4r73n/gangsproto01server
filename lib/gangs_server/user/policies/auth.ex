@@ -8,7 +8,7 @@ defmodule User.Policy.Auth do
   end
 
   defp user_in_db(name) do
-    Store.Loader.User.load_user_by_name(name)
+    Store.Interactor.User.get_by_name(name)
   end
 
   defp format(nil), do: :error

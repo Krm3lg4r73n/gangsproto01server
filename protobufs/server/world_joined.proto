@@ -1,0 +1,6 @@
+syntax = "proto3";
+package msg;
+
+message WorldJoined {
+  int32 world_id = 1;
+}

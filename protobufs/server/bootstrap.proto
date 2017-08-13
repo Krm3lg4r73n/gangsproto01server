@@ -1,7 +1,0 @@
-syntax = "proto3";
-package msg;
-
-message Bootstrap {
-  repeated string users = 1;
-  repeated string worlds = 2;
-}

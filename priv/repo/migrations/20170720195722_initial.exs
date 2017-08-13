@@ -53,14 +53,16 @@ defmodule GangsServer.Store.Repo.Migrations.Initial do
 
     # InstanceData
     create table(:worlds) do
-      add :world_type_id, references(:world_types, on_delete: :nilify_all)
+      add :key, :string, null: false
+      add :world_type_id, references(:world_types, on_delete: :delete_all)
       timestamps()
     end
+    create index(:worlds, [:key], unique: true)
 
     create table(:players) do
       add :name, :string, null: false
       add :user_id, references(:users, on_delete: :nilify_all)
-      add :world_id, references(:worlds, on_delete: :nilify_all)
+      add :world_id, references(:worlds, on_delete: :delete_all)
       timestamps()
     end
     create index(:players, [:name, :world_id], unique: true)

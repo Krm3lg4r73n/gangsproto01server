@@ -6,7 +6,7 @@ defmodule Messaging.Dictionary do
     # SERVER
     {101, Message.Ok},
     {102, Message.Error},
-    {103, Message.Bootstrap},
+    {103, Message.WorldJoined},
 
     # CLIENT
     {201, Message.User},

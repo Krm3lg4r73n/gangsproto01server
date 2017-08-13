@@ -26,9 +26,8 @@ defmodule Network.Websocket.Connection do
     {:noreply, state}
   end
 
-
   def handle_call({:send, buffer}, _sender, state) do
-    Socket.Web.send!(state.client, {:binary, Base.encode64(buffer)})
+    Socket.Web.send!(state.client, {:binary, buffer})
     {:reply, :ok, state}
   end
   def handle_call({:begin_recv}, _sender, %Connection{client: client, receiving: false}) do

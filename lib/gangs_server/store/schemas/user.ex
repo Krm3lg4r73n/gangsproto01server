@@ -20,6 +20,6 @@ defmodule Store.Schema.User do
   end
 
   defimpl String.Chars do
-    def to_string(user), do: "#User{name: #{user.name}}"
+    def to_string(user), do: "#User{id: #{user.id} name: #{user.name}}"
   end
 end

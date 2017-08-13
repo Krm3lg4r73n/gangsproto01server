@@ -15,6 +15,11 @@ defmodule Network.Websocket.Server do
     {:ok, pid} = Supervisor.start_child(
       Network.Websocket.Connection.Supervisor,
       [client])
+
+    # TODO: remove
+    try do Process.unregister(:conn) rescue ArgumentError -> nil end
+    Process.register(pid, :conn)
+
     :ok = Network.Websocket.Connection.begin_recv(pid)
     :ok = Network.ConnectionMonitor.monitor(pid)
     loop_acceptor(socket)

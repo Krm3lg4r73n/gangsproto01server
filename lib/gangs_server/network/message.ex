@@ -10,6 +10,6 @@ defmodule Network.Message do
     #          data
     # Network.TCP.Connection.send(conn, buffer)
     buffer = <<type::integer-little-size(32), data::binary>>
-    Network.Websocket.Connection.send(conn, buffer)
+    GenServer.call(conn, {:send, buffer})
   end
 end
