@@ -26,7 +26,7 @@ defmodule Game.WorldManager do
       end)
     end)
     desc = Poison.encode!(errors)
-    Message.Error.new(type: "failed_to_create_world", desc: desc)
+    Message.Error.new(type: "failed_to_create_world", description: desc)
     |> User.Message.send(user_pid)
   end
 
