@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.{User, Messaging, Message}
+alias GangsServer.{User, Messaging, Message, Game}
 
 defmodule User.AuthHandler do
   use GenEvent
@@ -36,7 +36,7 @@ defmodule User.AuthHandler do
   defp process_conn(conn, user) do
     case {
       User.ConnectionRegistry.test_key(conn),
-      User.UserRegistry.test_key(user)
+      User.UserRegistry.test_key(user.id)
     } do
       {:ok, :ok} -> attach_user(conn, user)
       _ -> reject_conn(conn)
@@ -48,7 +48,9 @@ defmodule User.AuthHandler do
                       User.Process.Supervisor,
                       [user])
     User.ConnectionRegistry.register(conn, user_pid)
-    User.UserRegistry.register(user, user_pid)
+    User.UserRegistry.register(user.id, user_pid)
+
+    Game.Systems.attach_user_process(user_pid)
 
     Message.Ok.new
     |> Messaging.Message.send(conn)
