@@ -29,4 +29,15 @@ defmodule Store.Interactor.WorldTest do
       assert World.get_by_key("test-key") == world
     end
   end
+
+  describe "#get_all" do
+    # @tag :wip
+    test "it loads a list of all worlds", %{db: db} do
+      assert World.get_all() == []
+      {:ok, world_1} = World.create(db.world_type, "world-1")
+      {:ok, world_2} = World.create(db.world_type, "world-2")
+      {:ok, world_3} = World.create(db.world_type, "world-3")
+      assert World.get_all() == [world_1, world_2, world_3]
+    end
+  end
 end

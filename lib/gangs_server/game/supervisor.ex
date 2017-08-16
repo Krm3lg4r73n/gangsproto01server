@@ -9,10 +9,12 @@ defmodule Game.Supervisor do
 
   def init(:ok) do
     children = [
+      worker(Game.World.Registry, [[name: Game.World.Registry]]),
+      supervisor(Game.World.Process.Supervisor, [[name: Game.World.Process.Supervisor]]),
       worker(Game.Initializer, [[name: Game.Initializer]]),
     ]
 
-    supervise(children, strategy: :rest_for_one)
+    supervise(children, strategy: :one_for_all)
   end
 
 end

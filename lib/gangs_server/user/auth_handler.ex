@@ -50,7 +50,7 @@ defmodule User.AuthHandler do
     User.ConnectionRegistry.register(conn, user_pid)
     User.UserRegistry.register(user.id, user_pid)
 
-    Game.Systems.attach_user_process(user_pid)
+    Game.UserSystems.attach_user_process(user_pid)
 
     Message.Ok.new
     |> Messaging.Message.send(conn)

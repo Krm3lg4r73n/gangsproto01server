@@ -15,4 +15,9 @@ defmodule Store.Interactor.World do
             where: w.key == ^key
     Store.Repo.one(query)
   end
+
+  def get_all() do
+    query = from World
+    Store.Repo.all(query)
+  end
 end
