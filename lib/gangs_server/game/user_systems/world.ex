@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.{Game, Message, User}
+alias GangsServer.{Game, Message, Util}
 
 defmodule Game.UserSystem.World do
   def handle_message(%Message.WorldCreate{key: key}, user_pid) do
@@ -16,19 +16,14 @@ defmodule Game.UserSystem.World do
   defp handle_create_request(user_pid, key) do
     case Game.World.Creator.create(key) do
       {:ok, _world} -> handle_join_request(user_pid, key)
-      {:error, reason} -> send_error_message(user_pid, reason)
+      {:error, reason} -> Util.send_client_error(user_pid, reason)
     end
   end
 
   def handle_join_request(user_pid, key) do
     case Game.World.Registry.translate_key(key) do
       {:ok, world_pid} -> Game.World.Process.user_join(world_pid, user_pid)
-      :error -> send_error_message(user_pid, "World not found")
+      :error -> Util.send_client_error(user_pid, "World not found")
     end
-  end
-
-  defp send_error_message(user_pid, error_desc) do
-    Message.Error.new(type: "ClientError", description: error_desc)
-    |> User.Message.send(user_pid)
   end
 end
