@@ -1,4 +1,4 @@
-alias GangsServer.{Message, User}
+alias GangsServer.{Message, User, Messaging}
 
 defmodule GangsServer.Util do
   def stringify_changeset_errors(changeset) do
@@ -10,8 +10,23 @@ defmodule GangsServer.Util do
     Poison.encode!(errors)
   end
 
-  def send_client_error(user_pid, error_desc) do
+  def send_user_error(user_pid, error_desc) do
     Message.Error.new(type: "ClientError", description: error_desc)
     |> User.Message.send(user_pid)
+  end
+
+  def send_user_ok(user_pid) do
+    Message.Ok.new()
+    |> User.Message.send(user_pid)
+  end
+
+  def send_conn_error(conn_pid, error_desc) do
+    Message.Error.new(type: "ClientError", description: error_desc)
+    |> Messaging.Message.send(conn_pid)
+  end
+
+  def send_conn_ok(conn_pid) do
+    Message.Ok.new()
+    |> Messaging.Message.send(conn_pid)
   end
 end

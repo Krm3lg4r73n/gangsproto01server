@@ -9,7 +9,6 @@ defmodule Messaging.Supervisor do
 
   def init(:ok) do
     children = [
-      Messaging.EventManager.child_spec(),
       worker(Messaging.Initializer, [[name: Messaging.Initializer]]),
     ]
 

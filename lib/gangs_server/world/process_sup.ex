@@ -1,6 +1,6 @@
-alias GangsServer.Game
+alias GangsServer.World
 
-defmodule Game.World.Process.Supervisor do
+defmodule World.Process.Supervisor do
   use Supervisor
 
   def start_link(opts \\ []) do
@@ -9,7 +9,7 @@ defmodule Game.World.Process.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(Game.World.Process, [], restart: :temporary)
+      worker(World.Process, [], restart: :temporary)
     ]
     supervise(children, strategy: :simple_one_for_one)
   end

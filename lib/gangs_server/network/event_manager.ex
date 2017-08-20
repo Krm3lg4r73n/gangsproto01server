@@ -12,11 +12,11 @@ defmodule Network.EventManager do
     GenEvent.notify(__MODULE__, {:message, message})
   end
 
-  def fire_connected(conn) do
-    GenEvent.notify(__MODULE__, {:connected, conn})
+  def fire_connect(conn) do
+    GenEvent.notify(__MODULE__, {:connect, conn})
   end
 
-  def fire_disconnected(conn) do
-    GenEvent.notify(__MODULE__, {:disconnected, conn})
+  def fire_disconnect(conn) do
+    GenEvent.notify(__MODULE__, {:disconnect, conn})
   end
 end

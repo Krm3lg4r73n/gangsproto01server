@@ -9,13 +9,12 @@ defmodule User.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(User.Initializer, [[name: User.Initializer]]),
       worker(User.ConnectionRegistry, [[name: User.ConnectionRegistry]]),
-      worker(User.UserRegistry, [[name: User.UserRegistry]]),
       supervisor(User.Process.Supervisor, [[name: User.Process.Supervisor]]),
+      worker(User.Manager, [[name: User.Manager]]),
     ]
 
-    supervise(children, strategy: :rest_for_one)
+    supervise(children, strategy: :one_for_one)
   end
 
 end

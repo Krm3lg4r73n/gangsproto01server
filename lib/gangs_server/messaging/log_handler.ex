@@ -9,12 +9,12 @@ defmodule Messaging.LogHandler do
     {:ok, nil}
   end
 
-  def handle_event({:connected, conn}, _state) do
+  def handle_event({:connect, conn}, _state) do
     Logger.debug "Messaging: Connected #{inspect(conn)}"
     {:ok, nil}
   end
 
-  def handle_event({:disconnected, conn}, _state) do
+  def handle_event({:disconnect, conn}, _state) do
     Logger.debug "Messaging: Disconnected #{inspect(conn)}"
     {:ok, nil}
   end

@@ -1,4 +1,4 @@
-alias GangsServer.{Network, Store, Messaging, User, Game}
+alias GangsServer.{Network, Store, Messaging, User, World}
 
 defmodule GangsServer.Application do
   use Application
@@ -11,7 +11,7 @@ defmodule GangsServer.Application do
       supervisor(Network.Supervisor, [[name: Network.Supervisor]]),
       supervisor(Messaging.Supervisor, [[name: Messaging.Supervisor]]),
       supervisor(User.Supervisor, [[name: User.Supervisor]]),
-      supervisor(Game.Supervisor, [[name: Game.Supervisor]]),
+      supervisor(World.Supervisor, [[name: World.Supervisor]]),
     ]
 
     opts = [strategy: :one_for_one, name: GangsServer.Supervisor]

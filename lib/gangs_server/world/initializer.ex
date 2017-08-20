@@ -1,6 +1,6 @@
-alias GangsServer.Game
+alias GangsServer.World
 
-defmodule Game.Initializer do
+defmodule World.Initializer do
   use GenServer
 
   def start_link(opts \\ []) do
@@ -8,7 +8,7 @@ defmodule Game.Initializer do
   end
 
   def init(:ok) do
-    Game.World.Creator.start_all()
+    World.Manager.start_all()
     {:ok, nil}
   end
 end
