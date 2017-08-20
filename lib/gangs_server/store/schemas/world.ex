@@ -16,4 +16,8 @@ defmodule Store.Schema.World do
     |> Ecto.Changeset.unique_constraint(:key)
     |> Ecto.Changeset.assoc_constraint(:world_type)
   end
+
+  defimpl String.Chars do
+    def to_string(world), do: "#World{key: #{world.key}}"
+  end
 end
