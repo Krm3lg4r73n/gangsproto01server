@@ -1,4 +1,4 @@
-alias GangsServer.{Game, Store}
+alias GangsServer.Game
 
 defmodule Game.Initializer do
   use GenServer
@@ -8,19 +8,7 @@ defmodule Game.Initializer do
   end
 
   def init(:ok) do
-    start_world_processes()
+    Game.World.Creator.start_all()
     {:ok, nil}
-  end
-
-  defp start_world_processes() do
-    Store.Interactor.World.get_all()
-    |> Enum.each(&start_world(&1))
-  end
-
-  defp start_world(world) do
-    {:ok, pid} = Supervisor.start_child(
-                  Game.World.Process.Supervisor,
-                  [world])
-    Game.World.Registry.register(world.key, pid)
   end
 end

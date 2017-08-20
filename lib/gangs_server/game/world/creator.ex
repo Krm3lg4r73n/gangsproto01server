@@ -7,6 +7,11 @@ defmodule Game.World.Creator do
          do: {:ok, world}
   end
 
+  def start_all() do
+    Store.Interactor.World.get_all()
+    |> Enum.each(&start_process/1)
+  end
+
   defp create_in_store(key) do
     world_type = Store.Interactor.WorldType.get_by_ref("new_earth")
     case Store.Interactor.World.create(world_type, key) do
