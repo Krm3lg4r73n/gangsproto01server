@@ -44,6 +44,10 @@ defmodule ProcessRegistry do
     {:reply, SymmetricMap.fetch_by_value(registry, pid), registry}
   end
 
+  def handle_call(:keys, _from, registry) do
+    {:reply, Map.keys(registry.key_map), registry}
+  end
+
   def handle_info({:DOWN, _ref, _type, pid, _reason}, registry) do
     {:ok, registry} = SymmetricMap.delete_by_value(registry, pid)
     {:noreply, registry}
@@ -54,33 +58,14 @@ defmodule ProcessRegistry do
 
   defmacro __using__(_) do
     quote do
-      def start_link(opts \\ []) do
-        GenServer.start_link(ProcessRegistry, :ok, opts)
-      end
-
-      def test_key(key) do
-        GenServer.call(__MODULE__, {:test_key, key})
-      end
-
-      def register(key, pid) do
-        GenServer.call(__MODULE__, {:register, key, pid})
-      end
-
-      def unregister_by_key(key) do
-        GenServer.call(__MODULE__, {:unregister_by_key, key})
-      end
-
-      def unregister_by_pid(pid) do
-        GenServer.call(__MODULE__, {:unregister_by_pid, pid})
-      end
-
-      def translate_key(key) do
-        GenServer.call(__MODULE__, {:translate_key, key})
-      end
-
-      def translate_pid(pid) do
-        GenServer.call(__MODULE__, {:translate_pid, pid})
-      end
+      def start_link(opts \\ []), do: GenServer.start_link(ProcessRegistry, :ok, opts)
+      def test_key(key), do: GenServer.call(__MODULE__, {:test_key, key})
+      def register(key, pid), do: GenServer.call(__MODULE__, {:register, key, pid})
+      def unregister_by_key(key), do: GenServer.call(__MODULE__, {:unregister_by_key, key})
+      def unregister_by_pid(pid), do: GenServer.call(__MODULE__, {:unregister_by_pid, pid})
+      def translate_key(key), do: GenServer.call(__MODULE__, {:translate_key, key})
+      def translate_pid(pid), do: GenServer.call(__MODULE__, {:translate_pid, pid})
+      def keys(), do: GenServer.call(__MODULE__, :keys)
     end
   end
 end

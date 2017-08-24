@@ -8,12 +8,12 @@ defmodule User.Manager do
     {:ok, refs}
   end
 
-  def handle_call({:connect, _conn_pid}, _sender, refs) do
+  def handle_call({:connect, _conn_pid}, _, refs) do
     # do nothing -> wait for Message.User
     {:reply, :ok, refs}
   end
 
-  def handle_call({:disconnect, conn_pid}, _sender, refs) do
+  def handle_call({:disconnect, conn_pid}, _, refs) do
     case User.ConnectionRegistry.translate_key(conn_pid) do
       {:ok, user_pid} ->
         User.Process.disconnect(user_pid)
@@ -23,14 +23,20 @@ defmodule User.Manager do
     {:reply, :ok, refs}
   end
 
-  def handle_call({:message, conn_pid, %Message.User{name: name}}, _sender, refs) do
+  def handle_call({:message, conn_pid, %Message.User{name: name}}, _, refs) do
     case User.Policy.Auth.verify(name) do
       {:ok, user} -> process_conn(conn_pid, user)
       :error -> Util.send_conn_error(conn_pid, "Unknown")
     end
     {:reply, :ok, refs}
   end
-  def handle_call({:message, conn_pid, message}, _sender, refs) do
+  def handle_call({:message, conn_pid, %Message.ServerReset{}}, _, refs) do
+    User.ConnectionRegistry.keys()
+    |> Enum.filter(fn elem -> elem != conn_pid end)
+    |> Enum.each(&Process.exit(&1, :reset))
+    {:reply, :ok, refs}
+  end
+  def handle_call({:message, conn_pid, message}, _, refs) do
     case User.ConnectionRegistry.translate_key(conn_pid) do
       {:ok, user_pid} -> User.Process.message(user_pid, message)
       :error -> nil
@@ -39,9 +45,9 @@ defmodule User.Manager do
   end
 
   defp process_conn(conn_pid, user) do
-    case User.ConnectionRegistry.test_key(conn_pid) do
+    case User.UserRegistry.test_key(user.id) do
       :ok -> attach_user(conn_pid, user)
-      _ -> Util.send_conn_error(conn_pid, "Already attached")
+      :error -> Util.send_conn_error(conn_pid, "Already attached")
     end
   end
 
@@ -49,7 +55,8 @@ defmodule User.Manager do
     {:ok, user_pid} = Supervisor.start_child(
                       User.Process.Supervisor,
                       [user])
-    User.ConnectionRegistry.register(conn_pid, user_pid)
+    :ok = User.ConnectionRegistry.register(conn_pid, user_pid)
+    :ok = User.UserRegistry.register(user.id, conn_pid)
     Util.send_conn_ok(conn_pid)
   end
 

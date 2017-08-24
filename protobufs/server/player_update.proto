@@ -1,0 +1,6 @@
+syntax = "proto3";
+package msg;
+
+message PlayerUpdate {
+  string name = 1;
+}

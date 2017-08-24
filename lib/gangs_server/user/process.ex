@@ -3,6 +3,8 @@ alias GangsServer.{User, World, Message}
 defmodule User.Process do
   use GenServer
 
+  # TODO: handle user process exit
+
   def init(user) do
     {:ok, %{user: user, world_pid: nil}}
   end
@@ -12,24 +14,26 @@ defmodule User.Process do
     {:reply, :ok, state}
   end
   def handle_call(:disconnect, _from, %{world_pid: world_pid} = state) do
-    World.Manager.user_exit(world_pid)
+    World.Manager.user_exit(world_pid, state.user.id)
     {:reply, :ok, state}
   end
 
   def handle_call({:message, %Message.WorldCreate{key: key}}, _from, state) do
-    new_state = Map.put(state, :world_pid, World.Manager.create(key))
+    new_state = state
+    |> Map.put(:world_pid, World.Manager.create(key, state.user.id))
     {:reply, :ok, new_state}
   end
   def handle_call({:message, %Message.WorldJoin{key: key}}, _from, state) do
-    new_state = Map.put(state, :world_pid, World.Manager.user_enter(key))
+    new_state = state
+    |> Map.put(:world_pid, World.Manager.user_enter(key, state.user.id))
     {:reply, :ok, new_state}
   end
   def handle_call({:message, _message}, _from, %{world_pid: nil} = state) do
-    # Drop messages when not attached to world
+    # Drop other messages when not attached to world
     {:reply, :ok, state}
   end
-  def handle_call({:message, message}, _from, %{world_pid: world_pid} = state) do
-    World.Manager.user_message(world_pid, message)
+  def handle_call({:message, message}, _from, state) do
+    World.Manager.user_message(state.world_pid, message, state.user.id)
     {:reply, :ok, state}
   end
 

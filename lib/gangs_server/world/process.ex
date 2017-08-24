@@ -1,57 +1,57 @@
 require Logger
-alias GangsServer.{World, Util, Message, User}
+alias GangsServer.{World, Util, Message, User, GameSystem}
 
 defmodule World.Process do
   use GenServer
 
-  defstruct [:world, :user_pids]
+  defstruct [:world, :user_ids]
 
   def init(world) do
     state = %World.Process{
       world: world,
-      user_pids: MapSet.new,
+      user_ids: MapSet.new,
     }
 
     Logger.debug "Starting Process for #{state.world}"
     {:ok, state}
   end
 
-  def handle_call({:user_enter, user_pid}, _from, state) do
-    new_user_pids = if MapSet.member?(state.user_pids, user_pid) do
-      Util.send_user_error(user_pid, "Already entered")
-      state.user_pids
+  def handle_call({:user_enter, user_id}, _, state) do
+    new_user_ids = if MapSet.member?(state.user_ids, user_id) do
+      Util.send_user_error(user_id, "Already entered")
+      state.user_ids
     else
-      enter_user(user_pid, state.world)
-      MapSet.put(state.user_pids, user_pid)
+      enter_user(user_id, state.world)
+      MapSet.put(state.user_ids, user_id)
     end
-    {:reply, :ok, %{state | user_pids: new_user_pids}}
+    {:reply, :ok, %{state | user_ids: new_user_ids}}
   end
 
-  def handle_call({:user_exit, user_pid}, _from, state) do
-    Logger.info "User #{inspect(user_pid)} left #{state.world}"
+  def handle_call({:user_exit, user_id}, _, state) do
+    Logger.info "User #{user_id} left #{state.world}"
 
-    new_user_pids = if MapSet.member?(state.user_pids, user_pid) do
-      MapSet.delete(state.user_pids, user_pid)
+    new_user_ids = if MapSet.member?(state.user_ids, user_id) do
+      MapSet.delete(state.user_ids, user_id)
     else
-      state.user_pids
+      state.user_ids
     end
-    {:reply, :ok, %{state | user_pids: new_user_pids}}
+    {:reply, :ok, %{state | user_ids: new_user_ids}}
   end
 
-  defp enter_user(user_pid, world) do
-    Logger.info "User #{inspect(user_pid)} entered #{world}"
+  def handle_call({:message, user_id, message}, _, state) do
+    GameSystem.Player.user_message(message, user_id, state.world.id)
+    {:reply, :ok, state}
+  end
 
-    # get player for user
-      # no player -> create player msg
-      # player -> player in state
-    Message.WorldJoined.new(world_id: world.id)
-    |> User.Message.send(user_pid)
+  defp enter_user(user_id, world) do
+    Logger.info "User #{user_id} entered #{world}"
+    GameSystem.Player.user_enter(user_id, world.id)
   end
 
   #==============
 
   def start_link(state, opts \\ []), do: GenServer.start_link(__MODULE__, state, opts)
-  def user_enter(pid, user_pid), do: GenServer.call(pid, {:user_enter, user_pid})
-  def user_exit(pid, user_pid), do: GenServer.call(pid, {:user_exit, user_pid})
-  def user_message(pid, user_pid, message), do: GenServer.call(pid, {:user_message, user_pid, message})
+  def user_enter(pid, user_id), do: GenServer.call(pid, {:user_enter, user_id})
+  def user_exit(pid, user_id), do: GenServer.call(pid, {:user_exit, user_id})
+  def user_message(pid, message, user_id), do: GenServer.call(pid, {:user_message, message, user_id})
 end

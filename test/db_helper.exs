@@ -23,7 +23,9 @@ defmodule DBHelper do
     %{
       frank: %Store.Schema.User{name: "Frank", locale_ref: "de"},
     }
-    |> Enum.map(fn {key, value} -> {key, Store.Repo.insert!(value)} end)
+    |> Enum.reduce(%{}, fn ({key, value}, acc) ->
+      Map.put(acc, key, Store.Repo.insert!(value))
+    end)
   end
 
   defp seed_lines do

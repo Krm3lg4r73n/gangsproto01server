@@ -7,11 +7,15 @@ defmodule Messaging.Dictionary do
     {101, Message.Ok},
     {102, Message.Error},
     {103, Message.WorldJoined},
+    {104, Message.PlayerUpdate},
+    {105, Message.PlayerCreateRequest},
 
     # CLIENT
-    {201, Message.User},
-    {202, Message.WorldCreate},
-    {203, Message.WorldJoin},
+    {201, Message.ServerReset},
+    {202, Message.User},
+    {203, Message.WorldCreate},
+    {204, Message.WorldJoin},
+    {205, Message.PlayerCreate},
 
     # OTHER
     {501, Message.Person},

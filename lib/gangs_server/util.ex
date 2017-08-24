@@ -10,14 +10,14 @@ defmodule GangsServer.Util do
     Poison.encode!(errors)
   end
 
-  def send_user_error(user_pid, error_desc) do
+  def send_user_error(user_id, error_desc) do
     Message.Error.new(type: "ClientError", description: error_desc)
-    |> User.Message.send(user_pid)
+    |> User.Message.send(user_id)
   end
 
-  def send_user_ok(user_pid) do
+  def send_user_ok(user_id) do
     Message.Ok.new()
-    |> User.Message.send(user_pid)
+    |> User.Message.send(user_id)
   end
 
   def send_conn_error(conn_pid, error_desc) do

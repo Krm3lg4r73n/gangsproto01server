@@ -31,7 +31,6 @@ defmodule Store.Interactor.WorldTest do
   end
 
   describe "#get_all" do
-    # @tag :wip
     test "it loads a list of all worlds", %{db: db} do
       assert World.get_all() == []
       {:ok, world_1} = World.create(db.world_type, "world-1")
