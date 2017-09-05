@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.{GameSystem, User, Message, Store}
+alias GangsServer.{GameSystem, User, Message, Store, Util}
 
 defmodule GameSystem.Player do
   def user_enter(user_id, world_id) do
@@ -9,8 +9,15 @@ defmodule GameSystem.Player do
     end
   end
 
-  def user_message(%Message.PlayerCreate{} = message, _user_id, _world_id) do
-    Logger.info "Creating player #{inspect(message)}"
+  def user_message(%Message.PlayerCreate{} = message, user_id, world_id) do
+    res = Store.Interactor.Player.create(user_id, world_id, message.name)
+    |> IO.inspect
+    case res do
+      {:ok, player} -> send_update(user_id, player)
+      {:error, changeset} ->
+        Util.send_user_error(user_id,
+                             Util.stringify_changeset_errors(changeset))
+    end
   end
   def user_message(_, _, _), do: nil
 

@@ -38,7 +38,7 @@ defmodule World.Process do
     {:reply, :ok, %{state | user_ids: new_user_ids}}
   end
 
-  def handle_call({:message, user_id, message}, _, state) do
+  def handle_call({:user_message, message, user_id}, _, state) do
     GameSystem.Player.user_message(message, user_id, state.world.id)
     {:reply, :ok, state}
   end
