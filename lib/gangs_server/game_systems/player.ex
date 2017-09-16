@@ -10,9 +10,7 @@ defmodule GameSystem.Player do
   end
 
   def user_message(%Message.PlayerCreate{} = message, user_id, world_id) do
-    res = Store.Interactor.Player.create(user_id, world_id, message.name)
-    |> IO.inspect
-    case res do
+    case Store.Interactor.Player.create(user_id, world_id, message.name) do
       {:ok, player} -> send_update(user_id, player)
       {:error, changeset} ->
         Util.send_user_error(user_id,

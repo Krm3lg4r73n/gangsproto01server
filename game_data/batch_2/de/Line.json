@@ -6,17 +6,27 @@
   },
   {
     "locale_ref": "de",
-    "key": "bar.name",
+    "key": "new_earth.bar.name",
     "text": "Bar zum betrunkenen Seebär"
   },
   {
     "locale_ref": "de",
-    "key": "bar.area",
-    "text": "So sieht es in der Bar aus ..."
+    "key": "new_earth.bar.street_in_front.initial.content",
+    "text": "Du stehst vor der Bar."
   },
   {
     "locale_ref": "de",
-    "key": "bar.something_happens",
-    "text": "Und das passiert plötzlich in der Bar!"
+    "key": "new_earth.bar.street_in_front.later.content",
+    "text": "Es passiert etwas vor der Bar!"
+  },
+  {
+    "locale_ref": "de",
+    "key": "new_earth.bar.in_entrance.initial.content",
+    "text": "Du stehst im Eingang der Bar."
+  },
+  {
+    "locale_ref": "de",
+    "key": "new_earth.bar.in_entrance.later.content",
+    "text": "Es passiert etwas im Eingang!"
   }
 ]

@@ -1,0 +1,11 @@
+[
+  {
+    "ref_name": "new_earth.bar.street_in_front",
+    "location_ref": "new_earth.bar",
+    "is_opening": true
+  },
+  {
+    "ref_name": "new_earth.bar.in_entrance",
+    "location_ref": "new_earth.bar"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "ref_name": "new_earth.bar.street_in_front.initial",
+    "scene_ref": "new_earth.bar.street_in_front",
+    "content_line": "new_earth.bar.street_in_front.initial.content",
+    "trigger_after": 0
+  },
+  {
+    "ref_name": "new_earth.bar.street_in_front.later",
+    "scene_ref": "new_earth.bar.street_in_front",
+    "content_line": "new_earth.bar.street_in_front.later.content",
+    "trigger_after": 1000
+  },
+  {
+    "ref_name": "new_earth.bar.in_entrance.initial",
+    "scene_ref": "new_earth.bar.in_entrance",
+    "content_line": "new_earth.bar.in_entrance.initial.content",
+    "trigger_after": 0
+  },
+  {
+    "ref_name": "new_earth.bar.in_entrance.later",
+    "scene_ref": "new_earth.bar.in_entrance",
+    "content_line": "new_earth.bar.in_entrance.later.content",
+    "trigger_after": 500
+  }
+]

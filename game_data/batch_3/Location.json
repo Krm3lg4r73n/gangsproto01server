@@ -1,8 +1,7 @@
 [
   {
-    "ref_name": "bar",
-    "world_type_ref":"new_earth",
-    "name_line": "bar.name",
-    "area_line": "bar.area"
+    "ref_name": "new_earth.bar",
+    "world_type_ref": "new_earth",
+    "name_line": "new_earth.bar.name"
   }
 ]

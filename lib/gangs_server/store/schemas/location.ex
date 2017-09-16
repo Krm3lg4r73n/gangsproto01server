@@ -6,7 +6,6 @@ defmodule Store.Schema.Location do
   schema "locations" do
     field :ref_name, :string
     field :name_line, :string
-    field :area_line, :string
     timestamps()
 
     belongs_to :world_type, Schema.WorldType,

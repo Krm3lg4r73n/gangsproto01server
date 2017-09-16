@@ -1,5 +1,5 @@
 require Logger
-alias GangsServer.{World, Util, Message, User, GameSystem}
+alias GangsServer.{World, GameSystem}
 
 defmodule World.Process do
   use GenServer
@@ -17,35 +17,41 @@ defmodule World.Process do
   end
 
   def handle_call({:user_enter, user_id}, _, state) do
-    new_user_ids = if MapSet.member?(state.user_ids, user_id) do
-      Util.send_user_error(user_id, "Already entered")
-      state.user_ids
+    unless MapSet.member?(state.user_ids, user_id) do
+      new_user_ids = MapSet.put(state.user_ids, user_id)
+      process_user_enter(user_id, state.world)
+      {:reply, :ok, %{state | user_ids: new_user_ids}}
     else
-      enter_user(user_id, state.world)
-      MapSet.put(state.user_ids, user_id)
+      {:reply, :ok, state}
     end
-    {:reply, :ok, %{state | user_ids: new_user_ids}}
   end
 
   def handle_call({:user_exit, user_id}, _, state) do
-    Logger.info "User #{user_id} left #{state.world}"
-
-    new_user_ids = if MapSet.member?(state.user_ids, user_id) do
-      MapSet.delete(state.user_ids, user_id)
+    if MapSet.member?(state.user_ids, user_id) do
+      Logger.info "User #{user_id} left #{state.world}"
+      process_user_exit(user_id, state.world)
+      {:reply, :ok, %{state | user_ids: MapSet.delete(state.user_ids, user_id)}}
     else
-      state.user_ids
+      {:reply, :ok, state}
     end
-    {:reply, :ok, %{state | user_ids: new_user_ids}}
   end
 
   def handle_call({:user_message, message, user_id}, _, state) do
-    GameSystem.Player.user_message(message, user_id, state.world.id)
+    if MapSet.member?(state.user_ids, user_id) do
+      process_user_message(user_id, state.world, message)
+    end
     {:reply, :ok, state}
   end
 
-  defp enter_user(user_id, world) do
+  defp process_user_enter(user_id, world) do
     Logger.info "User #{user_id} entered #{world}"
     GameSystem.Player.user_enter(user_id, world.id)
+  end
+
+  defp process_user_exit(_user_id, _world), do: nil
+
+  defp process_user_message(user_id, world, message) do
+    GameSystem.Player.user_message(message, user_id, world.id)
   end
 
   #==============

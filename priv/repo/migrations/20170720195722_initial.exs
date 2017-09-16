@@ -38,18 +38,26 @@ defmodule GangsServer.Store.Repo.Migrations.Initial do
       add :ref_name, :string, null: false
       add :world_type_ref, references(:world_types, column: :ref_name, type: :string, on_delete: :delete_all)
       add :name_line, :string, null: false
-      add :area_line, :string, null: false
       timestamps()
     end
     create index(:locations, [:ref_name], unique: true)
 
-    create table(:location_events) do
+    create table(:scenes) do
       add :ref_name, :string, null: false
       add :location_ref, references(:locations, column: :ref_name, type: :string, on_delete: :delete_all)
-      add :area_line, :string, null: false
+      add :is_opening, :boolean, null: false, default: false
       timestamps()
     end
-    create index(:location_events, [:ref_name], unique: true)
+    create index(:scenes, [:ref_name], unique: true)
+
+    create table(:scene_events) do
+      add :ref_name, :string, null: false
+      add :scene_ref, references(:scenes, column: :ref_name, type: :string, on_delete: :delete_all)
+      add :content_line, :string, null: false
+      add :trigger_after, :integer, null: false
+      timestamps()
+    end
+    create index(:scene_events, [:ref_name], unique: true)
 
     # InstanceData
     create table(:worlds) do

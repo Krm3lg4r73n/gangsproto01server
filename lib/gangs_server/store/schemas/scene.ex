@@ -1,11 +1,12 @@
 alias GangsServer.Store
 
-defmodule Store.Schema.LocationEvent do
+defmodule Store.Schema.Scene do
   use Store.Schema
 
-  schema "location_events" do
+  schema "scenes" do
     field :ref_name, :string
-    field :area_line, :string
+    field :name_line, :string
+    field :is_opening, :boolean
     timestamps()
 
     belongs_to :location, Schema.Location,
