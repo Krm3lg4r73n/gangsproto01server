@@ -49,16 +49,6 @@ defmodule World.Manager do
     {:reply, world_pid, refs}
   end
 
-  def handle_call({:user_exit, world_pid, user_id}, _, refs) do
-    World.Process.user_exit(world_pid, user_id)
-    {:reply, :ok, refs}
-  end
-
-  def handle_call({:user_message, world_pid, message, user_id}, _, refs) do
-    World.Process.user_message(world_pid, message, user_id)
-    {:reply, :ok, refs}
-  end
-
   defp start_process(world) do
     {:ok, world_pid} = Supervisor.start_child(
       World.Process.Supervisor,
@@ -81,11 +71,5 @@ defmodule World.Manager do
   end
   def user_enter(key, user_id) do
     GenServer.call(__MODULE__, {:user_enter, key, user_id})
-  end
-  def user_exit(world_pid, user_id) do
-    GenServer.call(__MODULE__, {:user_exit, world_pid, user_id})
-  end
-  def user_message(world_pid, message, user_id) do
-    GenServer.call(__MODULE__, {:user_message, world_pid, message, user_id})
   end
 end

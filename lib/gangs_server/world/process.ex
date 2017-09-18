@@ -28,7 +28,6 @@ defmodule World.Process do
 
   def handle_call({:user_exit, user_id}, _, state) do
     if MapSet.member?(state.user_ids, user_id) do
-      Logger.info "User #{user_id} left #{state.world}"
       process_user_exit(user_id, state.world)
       {:reply, :ok, %{state | user_ids: MapSet.delete(state.user_ids, user_id)}}
     else
@@ -48,7 +47,9 @@ defmodule World.Process do
     GameSystem.Player.user_enter(user_id, world.id)
   end
 
-  defp process_user_exit(_user_id, _world), do: nil
+  defp process_user_exit(user_id, world) do
+    Logger.info "User #{user_id} left #{world}"
+  end
 
   defp process_user_message(user_id, world, message) do
     GameSystem.Player.user_message(message, user_id, world.id)

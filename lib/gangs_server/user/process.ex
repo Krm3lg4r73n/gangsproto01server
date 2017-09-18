@@ -14,7 +14,7 @@ defmodule User.Process do
     {:reply, :ok, state}
   end
   def handle_call(:disconnect, _from, %{world_pid: world_pid} = state) do
-    World.Manager.user_exit(world_pid, state.user.id)
+    World.Process.user_exit(world_pid, state.user.id)
     {:reply, :ok, state}
   end
 
@@ -33,7 +33,7 @@ defmodule User.Process do
     {:reply, :ok, state}
   end
   def handle_call({:message, message}, _from, state) do
-    World.Manager.user_message(state.world_pid, message, state.user.id)
+    World.Process.user_message(state.world_pid, message, state.user.id)
     {:reply, :ok, state}
   end
 
