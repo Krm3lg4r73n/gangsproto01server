@@ -17,8 +17,9 @@ defmodule Network.Websocket.Connection do
 
   def handle_info({:receive, {:binary, data}}, state) do
     <<msg_type::integer-little-size(32), msg_data::binary>> = data
-    %Network.Message{type: msg_type, data: msg_data, conn: self()}
-    |> Network.EventManager.fire_message
+    Network.EventManager.fire_message(
+      self(),
+      %Network.Message{type: msg_type, data: msg_data})
     {:noreply, state}
   end
   def handle_info({:receive, {:close, _, _}}, state) do

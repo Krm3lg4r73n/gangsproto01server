@@ -1,22 +1,23 @@
 alias GangsServer.Network
 
 defmodule Network.EventManager do
-  def child_spec do
-    import Supervisor.Spec
-    worker(GenEvent, [[name: __MODULE__]])
+
+  @event_handler Application.get_env(:gangs_server, :network_event_handler)
+
+  def fire_connect(conn_pid) do
+    conn_state = @event_handler.handle(:connect, %{conn_pid: conn_pid})
+    Network.ConnectionStateLookup.put(conn_pid, conn_state)
   end
 
-  def register(handler, state \\ nil), do: GenEvent.add_handler(__MODULE__, handler, state)
-
-  def fire_message(%Network.Message{} = message) do
-    GenEvent.notify(__MODULE__, {:message, message})
+  def fire_disconnect(conn_pid) do
+    conn_state = Network.ConnectionStateLookup.lookup(conn_pid)
+    @event_handler.handle(:disconnect, conn_state)
+    Network.ConnectionStateLookup.drop(conn_pid)
   end
 
-  def fire_connect(conn) do
-    GenEvent.notify(__MODULE__, {:connect, conn})
-  end
-
-  def fire_disconnect(conn) do
-    GenEvent.notify(__MODULE__, {:disconnect, conn})
+  def fire_message(conn_pid, message) do
+    conn_state = Network.ConnectionStateLookup.lookup(conn_pid)
+    conn_state = @event_handler.handle({:message, message}, conn_state)
+    Network.ConnectionStateLookup.put(conn_pid, conn_state)
   end
 end

@@ -1,4 +1,3 @@
-require Logger
 alias GangsServer.Network
 
 defmodule Network.ConnectionMonitor do

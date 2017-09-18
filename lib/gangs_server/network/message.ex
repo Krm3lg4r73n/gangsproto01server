@@ -1,7 +1,7 @@
 alias GangsServer.Network
 
 defmodule Network.Message do
-  defstruct [:type, :data, :conn]
+  defstruct [:type, :data]
 
   def send(type, data, conn) do
     # size = byte_size(data)
