@@ -9,7 +9,7 @@ defmodule Messaging.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(Messaging.ConnectionStateLookup, [[name: Messaging.ConnectionStateLookup]]),
+      worker(Messaging.ConnectionState, [[name: Messaging.ConnectionState]]),
       worker(Messaging.Pipeline, [[name: Messaging.Pipeline]]),
     ]
 

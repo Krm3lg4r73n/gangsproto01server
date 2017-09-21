@@ -4,21 +4,18 @@ defmodule World.Manager do
   use GenServer
 
   def init(:ok) do
-    refs = MapSet.new
-    {:ok, refs}
+    {:ok, nil}
   end
 
-  def handle_call(:start_all, _, refs) do
-    new_refs = Store.Interactor.World.get_all()
-    |> Enum.reduce(refs, fn world, acc ->
-      ref = start_process(world)
-      |> Process.monitor
-      MapSet.put(acc, ref)
+  def handle_call(:start_all, _, _) do
+    Store.Interactor.World.get_all()
+    |> Enum.each(fn world ->
+      start_process(world)
     end)
-    {:reply, :ok, new_refs}
+    {:reply, :ok, nil}
   end
 
-  def handle_call({:create, key, user_id}, _, refs) do
+  def handle_call({:create, key, user_id}, _, _) do
     world_pid = case World.Creator.create(key) do
       {:ok, world} ->
         world_pid = start_process(world)
@@ -29,15 +26,10 @@ defmodule World.Manager do
         nil
     end
 
-    if is_nil(world_pid) do
-      {:reply, nil, refs}
-    else
-      ref = Process.monitor(world_pid)
-      {:reply, world_pid, MapSet.put(refs, ref)}
-    end
+    {:reply, world_pid, nil}
   end
 
-  def handle_call({:user_enter, key, user_id}, _, refs) do
+  def handle_call({:user_enter, key, user_id}, _, _) do
     world_pid = case World.Registry.translate_key(key) do
       {:ok, world_pid} ->
         World.Process.user_enter(world_pid, user_id)
@@ -46,7 +38,7 @@ defmodule World.Manager do
         Util.send_user_error(user_id, "World unknown")
         nil
     end
-    {:reply, world_pid, refs}
+    {:reply, world_pid, nil}
   end
 
   defp start_process(world) do

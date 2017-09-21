@@ -1,14 +1,15 @@
-alias GangsServer.Game
+require Logger
 
-defmodule Game.EventManager do
+defmodule GangsServer.GlobalEventManager do
   use GenServer
 
-  @observer [
-    Game.Location.Observer
+  @initial_obs [
+    GangsServer.User.Observer.Login,
+    GangsServer.Messaging.Observer.LoginResult,
   ]
 
   def init(:ok) do
-    {:ok, MapSet.new(@observer)}
+    {:ok, MapSet.new(@initial_obs)}
   end
 
   def handle_call({:register_obs, new_obs}, _, obs) do
@@ -16,6 +17,7 @@ defmodule Game.EventManager do
   end
 
   def handle_cast({:invoke, event}, obs) do
+    Logger.info "Invoking #{inspect(event)}"
     Enum.each(obs, &observe_event(&1, event))
     {:noreply, obs}
   end

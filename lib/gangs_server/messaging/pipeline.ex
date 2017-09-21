@@ -5,34 +5,37 @@ defmodule Messaging.Pipeline do
 
   @handler_pipeline [
     Messaging.Handler.Log,
-    Messaging.Handler.Auth,
+    Messaging.Handler.Login,
     Messaging.Handler.World,
   ]
 
   def handle_cast({:handle, :connect, conn_pid}, _) do
-    conn_state = run_pipeline(:connect, %{conn_pid: conn_pid})
-    Messaging.ConnectionStateLookup.put(conn_pid, conn_state)
+    Messaging.ConnectionState.put(conn_pid, :conn_pid, conn_pid)
+    conn_state = Messaging.ConnectionState.lookup(conn_pid)
+    run_pipeline(:connect, conn_state)
     {:noreply, nil}
   end
 
   def handle_cast({:handle, :disconnect, conn_pid}, _) do
-    conn_state = Messaging.ConnectionStateLookup.lookup(conn_pid)
+    conn_state = Messaging.ConnectionState.lookup(conn_pid)
     run_pipeline(:disconnect, conn_state)
-    Messaging.ConnectionStateLookup.drop(conn_pid)
+    Messaging.ConnectionState.drop(conn_pid)
     {:noreply, nil}
   end
 
   def handle_cast({:handle, event, conn_pid}, _) do
-    conn_state = Messaging.ConnectionStateLookup.lookup(conn_pid)
-    conn_state = run_pipeline(event, conn_state)
-    Messaging.ConnectionStateLookup.put(conn_pid, conn_state)
+    conn_state = Messaging.ConnectionState.lookup(conn_pid)
+    run_pipeline(event, conn_state)
     {:noreply, nil}
   end
 
   defp run_pipeline(event, conn_state) do
     @handler_pipeline
-    |> Enum.reduce_while(conn_state, fn handler, state ->
-      handler.handle(event, state)
+    |> Enum.reduce_while(nil, fn handler, _ ->
+      case handler.handle(event, conn_state) do
+        :cont -> {:cont, nil}
+        :halt -> {:halt, nil}
+      end
     end)
   end
 

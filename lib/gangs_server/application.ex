@@ -12,6 +12,7 @@ defmodule GangsServer.Application do
       supervisor(Messaging.Supervisor, [[name: Messaging.Supervisor]]),
       supervisor(User.Supervisor, [[name: User.Supervisor]]),
       supervisor(World.Supervisor, [[name: World.Supervisor]]),
+      worker(GangsServer.GlobalEventManager, [[name: GangsServer.GlobalEventManager]]),
     ]
 
     opts = [strategy: :one_for_one, name: GangsServer.Supervisor]

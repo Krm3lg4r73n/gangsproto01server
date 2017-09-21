@@ -4,10 +4,10 @@ alias GangsServer.Messaging
 defmodule Messaging.Handler.Log do
   def handle(event, state) do
     Logger.info """
-    MESSAGING-PIPELINE-LOG
-    ---PIPELINE-EVENT: #{inspect(event)}
-    ---PIPELINE-STATE: #{inspect(state)}
+    MESSAGING-PIPELINE
+    ---EVENT: #{inspect(event)}
+    ---STATE: #{inspect(state)}
     """
-    {:cont, state}
+    :cont
   end
 end
