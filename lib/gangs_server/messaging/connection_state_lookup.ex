@@ -1,6 +1,6 @@
-alias GangsServer.Network
+alias GangsServer.Messaging
 
-defmodule Network.ConnectionStateLookup do
+defmodule Messaging.ConnectionStateLookup do
   use GenServer
 
   def init(:ok) do
@@ -19,7 +19,7 @@ defmodule Network.ConnectionStateLookup do
     {:reply, Map.get(table, conn_pid), table}
   end
 
-  #==============
+  # ==============
 
   def start_link(opts \\ []), do: GenServer.start_link(__MODULE__, :ok, opts)
   def put(conn_pid, state), do: GenServer.call(__MODULE__, {:put, conn_pid, state})

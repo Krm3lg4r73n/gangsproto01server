@@ -55,8 +55,6 @@ defmodule World.Process do
     GameSystem.Player.user_message(message, user_id, world.id)
   end
 
-  #==============
-
   def start_link(state, opts \\ []), do: GenServer.start_link(__MODULE__, state, opts)
   def user_enter(pid, user_id), do: GenServer.call(pid, {:user_enter, user_id})
   def user_exit(pid, user_id), do: GenServer.call(pid, {:user_exit, user_id})

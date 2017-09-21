@@ -53,7 +53,6 @@ defmodule ProcessRegistry do
     {:noreply, registry}
   end
 
-
   #==============
 
   defmacro __using__(_) do

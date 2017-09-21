@@ -14,8 +14,6 @@ defmodule World.Supervisor do
       worker(World.Manager, [[name: World.Manager]]),
       worker(World.Initializer, [[name: World.Initializer]]),
     ]
-
     supervise(children, strategy: :one_for_all)
   end
-
 end

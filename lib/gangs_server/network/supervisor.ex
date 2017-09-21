@@ -9,7 +9,6 @@ defmodule Network.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(Network.ConnectionStateLookup, [[name: Network.ConnectionStateLookup]]),
       supervisor(Network.TCP.Connection.Supervisor, [[name: Network.TCP.Connection.Supervisor]]),
       supervisor(Network.Websocket.Connection.Supervisor, [[name: Network.Websocket.Connection.Supervisor]]),
       worker(Network.ConnectionMonitor, [[name: Network.ConnectionMonitor]]),
