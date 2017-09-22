@@ -1,4 +1,4 @@
-alias GangsServer.{Message, User, Messaging}
+alias GangsServer.{Message, Messaging}
 
 defmodule GangsServer.Util do
   def stringify_changeset_errors(changeset) do
@@ -12,12 +12,12 @@ defmodule GangsServer.Util do
 
   def send_user_error(user_id, error_desc) do
     Message.Error.new(type: "ClientError", description: error_desc)
-    |> User.Message.send(user_id)
+    |> Messaging.Message.send_to_user(user_id)
   end
 
   def send_user_ok(user_id) do
     Message.Ok.new()
-    |> User.Message.send(user_id)
+    |> Messaging.Message.send_to_user(user_id)
   end
 
   def send_conn_error(conn_pid, error_desc) do

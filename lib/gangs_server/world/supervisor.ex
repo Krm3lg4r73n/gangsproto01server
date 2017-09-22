@@ -10,11 +10,7 @@ defmodule World.Supervisor do
   def init(:ok) do
     children = [
       worker(World.State, [[name: World.State]]),
-      worker(World.Registry, [[name: World.Registry]]),
-      supervisor(World.Process.Supervisor, [[name: World.Process.Supervisor]]),
-      worker(World.Manager, [[name: World.Manager]]),
-      worker(World.Initializer, [[name: World.Initializer]]),
     ]
-    supervise(children, strategy: :one_for_all)
+    supervise(children, strategy: :one_for_one)
   end
 end
