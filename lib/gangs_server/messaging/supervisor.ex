@@ -10,10 +10,10 @@ defmodule Messaging.Supervisor do
   def init(:ok) do
     children = [
       worker(Messaging.ConnectionState, [[name: Messaging.ConnectionState]]),
+      worker(Messaging.UserConnectionRegistry, [[name: Messaging.UserConnectionRegistry]]),
       worker(Messaging.Pipeline, [[name: Messaging.Pipeline]]),
     ]
 
-    supervise(children, strategy: :rest_for_one)
+    supervise(children, strategy: :one_for_one)
   end
-
 end

@@ -3,15 +3,21 @@ alias GangsServer.GlobalEventManager, as: GEM
 
 defmodule User.Observer.Login do
   def observe({:user_login_req, conn_pid, name}) do
-    Store.Interactor.User.get_by_name(name)
-    |> process_user(conn_pid)
+    case Store.Interactor.User.get_by_name(name) do
+      nil -> GEM.invoke({:user_login_fail, conn_pid, "User unknown"})
+      user ->
+        case User.State.lookup(user.id) do
+          nil ->
+            User.State.put(user.id, :logged_in, true)
+            GEM.invoke({:user_login, user, conn_pid})
+          _ -> GEM.invoke({:user_login_fail, conn_pid, "Already logged in"})
+        end
+    end
   end
-  def observe(_), do: nil
 
-  defp process_user(nil, conn_pid) do
-    GEM.invoke({:user_login_fail, conn_pid})
+  def observe({:user_logout, user_id}) do
+    User.State.drop(user_id)
   end
-  defp process_user(user, conn_pid) do
-    GEM.invoke({:user_login_succ, conn_pid, user.id})
-  end
+
+  def observe(_), do: nil
 end

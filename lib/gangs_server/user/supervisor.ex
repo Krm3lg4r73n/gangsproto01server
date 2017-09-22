@@ -9,6 +9,7 @@ defmodule User.Supervisor do
 
   def init(:ok) do
     children = [
+      worker(User.State, [[name: User.State]]),
       worker(User.ConnectionRegistry, [[name: User.ConnectionRegistry]]),
       worker(User.UserRegistry, [[name: User.UserRegistry]]),
       supervisor(User.Process.Supervisor, [[name: User.Process.Supervisor]]),

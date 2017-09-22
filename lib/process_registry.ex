@@ -48,6 +48,10 @@ defmodule ProcessRegistry do
     {:reply, Map.keys(registry.key_map), registry}
   end
 
+  def handle_call(:values, _from, registry) do
+    {:reply, Map.keys(registry.value_map), registry}
+  end
+
   def handle_info({:DOWN, _ref, _type, pid, _reason}, registry) do
     {:ok, registry} = SymmetricMap.delete_by_value(registry, pid)
     {:noreply, registry}
@@ -65,6 +69,7 @@ defmodule ProcessRegistry do
       def translate_key(key), do: GenServer.call(__MODULE__, {:translate_key, key})
       def translate_pid(pid), do: GenServer.call(__MODULE__, {:translate_pid, pid})
       def keys(), do: GenServer.call(__MODULE__, :keys)
+      def values(), do: GenServer.call(__MODULE__, :values)
     end
   end
 end

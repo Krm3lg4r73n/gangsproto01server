@@ -1,11 +1,20 @@
 require Logger
+alias GangsServer.{Messaging, User, World, GameSystem}
 
 defmodule GangsServer.GlobalEventManager do
   use GenServer
 
   @initial_obs [
-    GangsServer.User.Observer.Login,
-    GangsServer.Messaging.Observer.LoginResult,
+    Messaging.Observer.Login,
+    Messaging.Observer.WorldCreate,
+    Messaging.Observer.WorldEnter,
+    Messaging.Observer.Player,
+
+    User.Observer.Login,
+    World.Observer.Create,
+    World.Observer.Enter,
+
+    GameSystem.Player.Observer.Attach,
   ]
 
   def init(:ok) do

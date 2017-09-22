@@ -5,8 +5,11 @@ defmodule Messaging.Pipeline do
 
   @handler_pipeline [
     Messaging.Handler.Log,
+    Messaging.Handler.ServerReset,
     Messaging.Handler.Login,
-    Messaging.Handler.World,
+    Messaging.Handler.WorldCreate,
+    Messaging.Handler.WorldEnter,
+    Messaging.Handler.PlayerCreate,
   ]
 
   def handle_cast({:handle, :connect, conn_pid}, _) do
