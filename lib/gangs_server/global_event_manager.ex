@@ -14,7 +14,7 @@ defmodule GangsServer.GlobalEventManager do
     World.Observer.Create,
     World.Observer.Enter,
 
-    GameSystem.Player.Observer.Attach,
+    GameSystem.Player.Observer,
   ]
 
   def init(:ok) do

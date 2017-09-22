@@ -1,7 +1,7 @@
 alias GangsServer.{GameSystem, Store, Util}
 alias GangsServer.GlobalEventManager, as: GEM
 
-defmodule GameSystem.Player.Observer.Attach do
+defmodule GameSystem.Player.Observer do
   def observe({:user_enter_world, world_id, user_id}) do
     case Store.Interactor.Player.get(user_id, world_id) do
       nil -> GEM.invoke({:user_missing_player, user_id})
