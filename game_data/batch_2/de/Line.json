@@ -28,5 +28,20 @@
     "locale_ref": "de",
     "key": "new_earth.bar.in_entrance.later.content",
     "text": "Es passiert etwas im Eingang!"
+  },
+  {
+    "locale_ref": "de",
+    "key": "new_earth.harbour.name",
+    "text": "Hafen"
+  },
+  {
+    "locale_ref": "de",
+    "key": "new_earth.harbour.gate.initial.content",
+    "text": "Das Tor zum Hafen ist fest verschlossen."
+  },
+  {
+    "locale_ref": "de",
+    "key": "new_earth.harbour.gate.later.content",
+    "text": "Ein Hund bellt und springt am Tor hoch."
   }
 ]

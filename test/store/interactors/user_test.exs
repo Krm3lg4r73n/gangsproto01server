@@ -9,10 +9,10 @@ defmodule Store.Interactor.UserTest do
   end
 
   test "it can load a user by name" do
-    assert User.get_by_name("Frank").name == "Frank"
+    assert User.get_by_name("User0").name == "User0"
   end
 
   test "it preloads the locale assoc", %{db: db} do
-    assert User.get_by_name("Frank").locale.name == db.locale.name
+    assert User.get_by_name("User0").locale.name == db.locale.name
   end
 end

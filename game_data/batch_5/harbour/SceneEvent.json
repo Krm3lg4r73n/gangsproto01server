@@ -1,0 +1,14 @@
+[
+  {
+    "ref_name": "new_earth.harbour.gate.initial",
+    "scene_ref": "new_earth.harbour.gate",
+    "content_line": "new_earth.harbour.gate.initial.content",
+    "trigger_after": 0
+  },
+  {
+    "ref_name": "new_earth.harbour.gate.later",
+    "scene_ref": "new_earth.harbour.gate",
+    "content_line": "new_earth.harbour.gate.later.content",
+    "trigger_after": 1000
+  }
+]

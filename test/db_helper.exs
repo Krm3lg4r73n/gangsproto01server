@@ -10,9 +10,9 @@ defmodule DBHelper do
       users: seed_users(),
       lines: seed_lines(),
       world_type: seed_world_type(),
+      locations: seed_locations(),
     }
   end
-
 
   defp seed_locale do
     %Store.Schema.Locale{ref_name: "de", name: "Deutsch"}
@@ -21,22 +21,41 @@ defmodule DBHelper do
 
   defp seed_users do
     %{
-      frank: %Store.Schema.User{name: "Frank", locale_ref: "de"},
+      usr0: %Store.Schema.User{name: "User0", locale_ref: "de"},
     }
-    |> Enum.reduce(%{}, fn ({key, value}, acc) ->
-      Map.put(acc, key, Store.Repo.insert!(value))
-    end)
+    |> insert_map()
   end
 
   defp seed_lines do
     %{
-      "test_world.desc" => %Store.Schema.Line{locale_ref: "de", key: "test_world.desc", text: "Die Testwelt."},
+      de_wlt0_desc: %Store.Schema.Line{
+        locale_ref: "de", key: "wlt0.desc", text: "Der erste Welttyp."},
+      de_wlt0_loc0_name: %Store.Schema.Line{
+        locale_ref: "de", key: "wlt0.loc0.name", text: "Die erste Location."},
+      de_wlt0_loc1_name: %Store.Schema.Line{
+        locale_ref: "de", key: "wlt0.loc1.name", text: "Die zweite Location."},
     }
-    |> Enum.map(fn {key, value} -> {key, Store.Repo.insert!(value)} end)
+    |> insert_map()
   end
 
   defp seed_world_type do
-    %Store.Schema.WorldType{ref_name: "test_world", description_line: "test_world.desc"}
+    %Store.Schema.WorldType{ref_name: "wlt0", description_line: "wlt0.desc"}
     |> Store.Repo.insert!
+  end
+
+  defp seed_locations do
+    %{
+      wlt0_loc0: %Store.Schema.Location{
+        ref_name: "wlt0.loc0", world_type_ref: "wlt0", name_line: "wlt0.loc0.name"},
+      wlt0_loc1: %Store.Schema.Location{
+        ref_name: "wlt0.loc1", world_type_ref: "wlt0", name_line: "wlt0.loc1.name"},
+    }
+    |> insert_map()
+  end
+
+  defp insert_map(data) do
+    Enum.reduce(data, %{}, fn ({key, value}, acc) ->
+      Map.put(acc, key, Store.Repo.insert!(value))
+    end)
   end
 end

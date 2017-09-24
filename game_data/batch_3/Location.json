@@ -3,5 +3,10 @@
     "ref_name": "new_earth.bar",
     "world_type_ref": "new_earth",
     "name_line": "new_earth.bar.name"
+  },
+  {
+    "ref_name": "new_earth.harbour",
+    "world_type_ref": "new_earth",
+    "name_line": "new_earth.harbour.name"
   }
 ]

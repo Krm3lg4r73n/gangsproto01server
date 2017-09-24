@@ -9,12 +9,14 @@ defmodule GangsServer.GlobalEventManager do
     Messaging.Observer.WorldCreate,
     Messaging.Observer.WorldEnter,
     Messaging.Observer.Player,
+    Messaging.Observer.Location,
 
     User.Observer.Login,
     World.Observer.Create,
     World.Observer.Enter,
 
     GameSystem.Player.Observer,
+    GameSystem.Location.Observer,
   ]
 
   def init(:ok) do

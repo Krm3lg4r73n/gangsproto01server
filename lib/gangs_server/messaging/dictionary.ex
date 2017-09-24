@@ -9,6 +9,7 @@ defmodule Messaging.Dictionary do
     {103, Message.WorldJoined},
     {104, Message.PlayerUpdate},
     {105, Message.PlayerCreateRequest},
+    {106, Message.LocationUpdate},
 
     # CLIENT
     {201, Message.ServerReset},
