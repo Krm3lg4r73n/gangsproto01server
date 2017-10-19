@@ -9,7 +9,7 @@ defmodule Location.Observer do
 
   def observe({:user_attach_to_player, player}) do
     location = Location.Recorder.current_player_location(player.id)
-    GEM.invoke({:user_update_location, player.user_id, location})
+    GEM.invoke({:user_init_location, player.user_id, location})
   end
 
   def observe(_), do: nil

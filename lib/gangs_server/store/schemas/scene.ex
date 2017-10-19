@@ -9,7 +9,7 @@ defmodule Store.Schema.Scene do
     field :is_opening, :boolean
     timestamps()
 
-    belongs_to :location, Schema.Location,
+    belongs_to :location, Store.Schema.Location,
       foreign_key: :location_ref,
       references: :ref_name
   end

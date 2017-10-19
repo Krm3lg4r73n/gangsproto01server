@@ -9,7 +9,7 @@ defmodule Store.Schema.SceneEvent do
     field :trigger_after, :integer
     timestamps()
 
-    belongs_to :scene, Schema.Scene,
+    belongs_to :scene, Store.Schema.Scene,
       foreign_key: :scene_ref,
       references: :ref_name
   end

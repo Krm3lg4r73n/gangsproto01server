@@ -1,4 +1,4 @@
-alias GangsServer.{Network, Store, Messaging, User, World}
+alias GangsServer.{Network, Store, Messaging, User, World, GameSystem}
 
 defmodule GangsServer.Application do
   use Application
@@ -12,6 +12,7 @@ defmodule GangsServer.Application do
       supervisor(Messaging.Supervisor, [[name: Messaging.Supervisor]]),
       supervisor(User.Supervisor, [[name: User.Supervisor]]),
       supervisor(World.Supervisor, [[name: World.Supervisor]]),
+      supervisor(GameSystem.Supervisor, [[name: GameSystem.Supervisor]]),
       worker(GangsServer.GlobalEventManager, [[name: GangsServer.GlobalEventManager]]),
     ]
 

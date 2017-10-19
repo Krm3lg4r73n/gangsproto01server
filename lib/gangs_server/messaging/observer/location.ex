@@ -5,7 +5,7 @@ defmodule Messaging.Observer.Location do
     send_update(player.user_id, location)
   end
 
-  def observe({:user_update_location, user_id, location}) do
+  def observe({:user_init_location, user_id, location}) do
     send_update(user_id, location)
   end
 

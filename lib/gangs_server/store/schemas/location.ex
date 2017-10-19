@@ -8,7 +8,7 @@ defmodule Store.Schema.Location do
     field :name_line, :string
     timestamps()
 
-    belongs_to :world_type, Schema.WorldType,
+    belongs_to :world_type, Store.Schema.WorldType,
       foreign_key: :world_type_ref,
       references: :ref_name
   end

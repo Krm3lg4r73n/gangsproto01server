@@ -13,7 +13,6 @@ defmodule GameSystem.Player.Observer do
     case Store.Interactor.Player.create(user_id, world_id, name) do
       {:ok, player} ->
         GEM.invoke({:player_create, player})
-        GEM.invoke({:user_attach_to_player, player})
       {:error, changeset} -> invoke_fail(user_id, changeset)
     end
   end

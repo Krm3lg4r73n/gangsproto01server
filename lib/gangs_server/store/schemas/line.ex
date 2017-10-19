@@ -8,7 +8,7 @@ defmodule Store.Schema.Line do
     field :text, :string
     timestamps()
 
-    belongs_to :locale, Schema.Locale,
+    belongs_to :locale, Store.Schema.Locale,
       foreign_key: :locale_ref,
       references: :ref_name
   end
