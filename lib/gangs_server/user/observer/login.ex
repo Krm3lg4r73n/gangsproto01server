@@ -8,6 +8,7 @@ defmodule User.Observer.Login do
       user ->
         case User.State.lookup(user.id) do
           nil ->
+            # TODO: make atomic
             User.State.put(user.id, :logged_in, true)
             GEM.invoke({:user_login, user, conn_pid})
           _ -> GEM.invoke({:user_login_fail, conn_pid, "Already logged in"})

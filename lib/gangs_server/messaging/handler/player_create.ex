@@ -11,5 +11,6 @@ defmodule Messaging.Handler.PlayerCreate do
     :halt
   end
 
+  # TODO: after this a player is required
   def handle(_, _), do: :cont
 end
