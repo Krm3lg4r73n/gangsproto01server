@@ -20,10 +20,10 @@ defmodule Network.Health.Server do
     Task.start(fn -> 
       case :gen_tcp.recv(client, 0) do
         {:ok, data} -> Logger.info "Health received #{inspect(data)}"
-        other -> 
+        error -> Logger.info "Serve Error #{inspect(error)}"
       end
     end)
     loop_acceptor(socket)
   end
-  defp serve_client(error), do: Logger.info "Error #{inspect(error)}"
+  defp serve_client(error), do: Logger.info "Accept Error #{inspect(error)}"
 end
