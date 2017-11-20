@@ -18,10 +18,8 @@ defmodule Network.Health.Server do
   defp serve_client({:ok, client}, socket) do
     Logger.debug "Health connection #{inspect(client)}"
     Task.start(fn -> 
-      case :gen_tcp.recv(client, 0) do
-        {:ok, data} -> Logger.debug "Health received #{inspect(data)}"
-        error -> Logger.debug "Receive Error #{inspect(error)}"
-      end
+      data = :gen_tcp.recv(client, 0)
+      Logger.debug "Health receive for #{inspect(client)} #{inspect(data)}"
     end)
     loop_acceptor(socket)
   end
