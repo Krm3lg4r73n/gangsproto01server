@@ -16,7 +16,7 @@ defmodule Network.TCP.Server do
       Network.TCP.Connection.Supervisor,
       [client])
     :ok = Network.ConnectionMonitor.monitor(pid)
-    :ok = :gen_tcp.controlling_process(client, pid)
+    :gen_tcp.controlling_process(client, pid)
     loop_acceptor(socket)
   end
 end
