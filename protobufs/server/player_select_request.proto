@@ -1,0 +1,11 @@
+syntax = "proto3";
+package msg;
+
+message PlayerSelectionOption {
+  int32 id = 1;
+  string name = 2;
+}
+
+message PlayerSelectRequest {
+  repeated PlayerSelectionOption options = 1;
+}

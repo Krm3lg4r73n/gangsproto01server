@@ -1,0 +1,6 @@
+syntax = "proto3";
+package msg;
+
+message PlayerSelect {
+  int32 id = 1;
+}

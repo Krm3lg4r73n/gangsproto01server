@@ -2,13 +2,14 @@
 
 mix compile --force
 
-bin/compile_gpb.sh
+# Only needed for C# and Java
+# bin/compile_gpb.sh
 
 WD=`pwd`
-REACT_DIR=../reactNativeTest/
+REACT_DIR=../gangsproto01client/
 PROTOS=`${WD}/bin/all_protos.sh`
 cd ${REACT_DIR}
-yarn gpb ${PROTOS}
+npm run gpb ${PROTOS}
 cd ${WD}
 echo "Compiled gpb"
 

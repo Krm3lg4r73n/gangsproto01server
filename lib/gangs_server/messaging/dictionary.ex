@@ -9,6 +9,7 @@ defmodule Messaging.Dictionary do
     {103, Message.WorldJoined},
     {104, Message.PlayerUpdate},
     {105, Message.PlayerCreateRequest},
+    {105, Message.PlayerSelectRequest},
     {106, Message.LocationUpdate},
 
     # CLIENT
@@ -17,6 +18,7 @@ defmodule Messaging.Dictionary do
     {203, Message.WorldCreate},
     {204, Message.WorldJoin},
     {205, Message.PlayerCreate},
+    {205, Message.PlayerSelect},
 
     # OTHER
     {501, Message.Person},
