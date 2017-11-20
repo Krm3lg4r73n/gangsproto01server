@@ -12,7 +12,8 @@ defmodule Network.Supervisor do
       supervisor(Network.TCP.Connection.Supervisor, [[name: Network.TCP.Connection.Supervisor]]),
       supervisor(Network.Websocket.Connection.Supervisor, [[name: Network.Websocket.Connection.Supervisor]]),
       worker(Network.ConnectionMonitor, [[name: Network.ConnectionMonitor]]),
-      worker(Task, [Network.TCP.Server, :listen, [4000]], id: :tcp_server),
+      worker(Task, [Network.Health.Server, :listen, [4000]], id: :health_server),
+      worker(Task, [Network.TCP.Server, :listen, [4040]], id: :tcp_server),
       worker(Task, [Network.Websocket.Server, :listen, [8080]], id: :websocket_server),
     ]
 
