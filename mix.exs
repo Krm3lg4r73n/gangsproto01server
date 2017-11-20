@@ -21,7 +21,8 @@ defmodule GangsServer.Mixfile do
       {:ecto, "~> 2.1"},
       {:postgrex, "~> 0.13.3"},
       {:poison, "~> 3.1"},
-      {:socket, "~> 0.3.12"}
+      {:socket, "~> 0.3.12"},
+      {:distillery, "~> 1.0.0"}
     ]
   end
 end
