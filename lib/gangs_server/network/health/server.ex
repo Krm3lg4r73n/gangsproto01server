@@ -13,7 +13,7 @@ defmodule Network.Health.Server do
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     Logger.info "Health connection #{inspect(client)}"
-    Task.start(fn client -> 
+    Task.start(fn -> 
       {:ok, data} = :gen_tcp.recv(client, 0)
       Logger.info "Health received #{inspect(data)}"
     end)
