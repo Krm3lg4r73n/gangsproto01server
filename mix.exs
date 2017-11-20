@@ -11,7 +11,7 @@ defmodule GangsServer.Mixfile do
   end
 
   def application do
-    [extra_applications: [:logger, :ecto, :postgrex],
+    [extra_applications: [:logger, :ecto, :postgrex, :cowboy, :plug],
      mod: {GangsServer.Application, []}]
   end
 
@@ -22,7 +22,9 @@ defmodule GangsServer.Mixfile do
       {:postgrex, "~> 0.13.3"},
       {:poison, "~> 3.1"},
       {:socket, "~> 0.3.12"},
-      {:distillery, "~> 1.0.0"}
+      {:distillery, "~> 1.0.0"},
+      {:cowboy, "~> 1.0.0"},
+      {:plug, "~> 1.0"}
     ]
   end
 end
