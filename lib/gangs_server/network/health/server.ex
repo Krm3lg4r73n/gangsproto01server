@@ -1,7 +1,7 @@
 require Logger
 alias GangsServer.Network
 
-defmodule Network.TCP.Server do
+defmodule Network.Health.Server do
   def listen(port) do
     {:ok, socket} = :gen_tcp.listen(
       port,
