@@ -4,13 +4,11 @@ defmodule Messaging.Dictionary do
 
   @dictionary [
     # SERVER
-    {101, Message.Ok},
-    {102, Message.Error},
-    {103, Message.WorldJoined},
-    {104, Message.PlayerUpdate},
-    {105, Message.PlayerCreateRequest},
-    {105, Message.PlayerSelectRequest},
-    {106, Message.LocationUpdate},
+    {101, Message.WorldJoined},
+    {102, Message.PlayerUpdate},
+    {103, Message.PlayerCreateRequest},
+    {104, Message.PlayerSelectRequest},
+    {105, Message.LocationUpdate},
 
     # CLIENT
     {201, Message.ServerReset},
@@ -20,8 +18,11 @@ defmodule Messaging.Dictionary do
     {205, Message.PlayerCreate},
     {205, Message.PlayerSelect},
 
-    # OTHER
-    {501, Message.Person},
+    # COMMON
+    {501, Message.Ping},
+    {502, Message.Pong},
+    {503, Message.Ok},
+    {504, Message.Error},
   ]
 
   def dict, do: @dictionary

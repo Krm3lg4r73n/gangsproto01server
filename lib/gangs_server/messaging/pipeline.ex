@@ -4,6 +4,7 @@ defmodule Messaging.Pipeline do
   use GenServer
 
   @handler_pipeline [
+    Messaging.Handler.Ping,
     Messaging.Handler.Log,
     Messaging.Handler.ServerReset,
     Messaging.Handler.Login,

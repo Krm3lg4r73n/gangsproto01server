@@ -3,7 +3,7 @@ alias GangsServer.Network
 
 defmodule Network.Web.WebsocketHandler do
   @behaviour :cowboy_websocket_handler
-  @timeout 60000 # terminate if no activity for one minute
+  @silence_timeout 10000
 
   def init(_, _req, _opts) do
     {:upgrade, :protocol, :cowboy_websocket}
@@ -11,18 +11,10 @@ defmodule Network.Web.WebsocketHandler do
 
   def websocket_init(_type, req, _opts) do
     :ok = Network.ConnectionMonitor.monitor(self())
-    {:ok, req, :nostate, @timeout}
-  end
-
-  # Handle 'ping' messages from the browser - reply
-  def websocket_handle({:text, "ping"}, req, state) do
-    IO.puts "called handle ping"
-    {:reply, {:text, "pong"}, req, state}
+    {:ok, req, :nostate, @silence_timeout}
   end
   
   def websocket_handle({:binary, data}, req, state) do
-    IO.puts "Received #{inspect data} on #{inspect self()}"
-
     <<msg_type::integer-little-size(32), msg_data::binary>> = data
     Network.EventManager.fire_message(
       self(),
