@@ -1,6 +1,7 @@
 require Logger
+alias GangsServer.Network
 
-defmodule HealthPlug do
+defmodule Network.Web.HealthPlug do
   import Plug.Conn
 
   def init(options) do

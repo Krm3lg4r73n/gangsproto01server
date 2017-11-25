@@ -1,17 +1,13 @@
 #!/bin/sh
 
-DATABASE_TCP=$(echo $POSTGRES_URL | sed -E "s/postgres:\/\/.+@/tcp:\/\//")
+DATABASE_TCP=$(echo $DATABASE_URL | sed -E "s/postgres:\/\/.+@/tcp:\/\//")
+echo $DATABASE_TCP
 dockerize -wait $DATABASE_TCP -timeout 20s
 
 if [ "$1" = "test" ]; then
-  export MIX_ENV=test
-  mix ecto.create
-  mix ecto.migrate
-  mix test
+  echo "No tests configured"
 else
-  export MIX_ENV=prod
-  mix ecto.create
-  mix ecto.migrate
-  mix gangs_server.reset_game_data
-  elixir --sname gangsserver -S mix run --no-halt
+  export REPLACE_OS_VARS=true
+  ./bin/gangs_server migrate
+  ./bin/gangs_server foreground
 fi

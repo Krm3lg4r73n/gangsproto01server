@@ -1,14 +1,14 @@
 version: '2'
 services:
   app:
-    build: .
-    working_dir: /code
+    image: gangs-proto-server:latest
+    working_dir: /app
     environment:
-      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/gangs_server
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/gangs_server
     links:
       - postgres
     ports:
-     - "4040:4040"
+     - "4000:4000"
   postgres:
     image: postgres
     environment:

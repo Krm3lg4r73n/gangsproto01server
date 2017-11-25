@@ -26,11 +26,11 @@ defmodule Network.Websocket.Connection do
     Process.exit(self(), :normal)
     {:noreply, state}
   end
-
-  def handle_call({:send, buffer}, _sender, state) do
+  def handle_info({:send, buffer}, state) do
     Socket.Web.send!(state.client, {:binary, buffer})
-    {:reply, :ok, state}
+    {:noreply, state}
   end
+
   def handle_call({:begin_recv}, _sender, %Connection{client: client, receiving: false}) do
     conn_pid = self()
     spawn_link(fn -> loop(client, conn_pid) end)
@@ -56,6 +56,6 @@ defmodule Network.Websocket.Connection do
   end
 
   def send(pid, buffer) do
-    GenServer.call(pid, {:send, buffer})
+    Process.send(pid, {:send, buffer}, [])
   end
 end

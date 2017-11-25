@@ -32,5 +32,8 @@ end
 
 release :gangs_server do
   set version: current_version(:gangs_server)
+  set commands: [
+    "migrate": "rel/commands/migrate.sh"
+  ]
 end
 
