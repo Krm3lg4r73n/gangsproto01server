@@ -10,12 +10,12 @@ defmodule Mix.Tasks.GangsServer.ResetGameData do
     Logger.configure(level: :info)
     ensure_started(Store.Repo, [])
 
-    Path.wildcard(Path.expand("./game_data/**/*.json"))
+    Path.wildcard(Path.join(:code.priv_dir(:gangs_server), "game_data/**/*.json"))
     |> Stream.map(&to_schema_module/1)
     |> Enum.map(&clear_db/1)
     |> Enum.each(&read_file/1)
 
-    IO.puts("")
+    IO.puts("") # linebreak
   end
 
   defp to_schema_module(filename) do

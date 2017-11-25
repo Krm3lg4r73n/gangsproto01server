@@ -4,33 +4,42 @@ defmodule GangsServer.ReleaseTasks do
     :crypto,
     :ssl,
     :postgrex,
-    :ecto
+    :ecto,
+    :logger
   ]
 
-  def app, do: :gangs_server
-
   def migrate do
-    IO.puts "Loading.."
-    :ok = Application.load(app())
-
-    IO.puts "Starting dependencies.."
-    # Start apps necessary for executing migrations
-    Enum.each(@start_apps, &Application.ensure_all_started/1)
+    IO.puts "Creating and migrating databases..."
+    {:ok, repos} = load_app()
     
     # Creating databases
-    repos = Application.get_env(app(), :ecto_repos, [])
     Enum.each(repos, &create_database_for/1)
 
     # Start the Repo(s) for the app
-    IO.puts "Starting repos.."
     Enum.each(repos, &(&1.start_link(pool_size: 1)))
     
     # Run migrations
     Enum.each(repos, &run_migrations_for/1)
 
-    # Signal shutdown
     IO.puts "Success!"
     :init.stop()
+  end
+
+  def seed do
+    IO.puts "Seeding databases..."
+    {:ok, _repos} = load_app()
+    
+    # Reset game data
+    Mix.Tasks.GangsServer.ResetGameData.run(:_)
+
+    IO.puts "Success!"
+    :init.stop()
+  end
+
+  defp load_app() do
+    :ok = Application.load(:gangs_server)
+    Enum.each(@start_apps, &Application.ensure_all_started/1)
+    {:ok, Application.get_env(:gangs_server, :ecto_repos, [])}
   end
 
   defp priv_dir(app), do: "#{:code.priv_dir(app)}"

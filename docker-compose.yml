@@ -1,7 +1,7 @@
 version: '2'
 services:
   app:
-    image: gangs-proto-server:latest
+    build: .
     working_dir: /app
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/gangs_server
@@ -9,6 +9,7 @@ services:
       - postgres
     ports:
      - "4000:4000"
+    command: seed
   postgres:
     image: postgres
     environment:
